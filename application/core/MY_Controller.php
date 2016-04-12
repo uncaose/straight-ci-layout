@@ -20,7 +20,6 @@ class MY_Controller extends CI_Controller
 		$output = $this->_straight_layout( $output );
 		$output = $this->_straight_view( $output );
 		
-		echo '########';
 		echo $output;
 	}
 	
