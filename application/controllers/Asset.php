@@ -21,6 +21,11 @@ class Asset extends CI_Controller
 			show_404();
 		}
 		
+		if( ! in_array(pathinfo($file, PATHINFO_EXTENSION), Array('js', 'css')) )
+		{
+			show_404();
+		}
+		
 		$this->load->helper('file');
 		$this->output->set_content_type( get_mime_by_extension($file) );
 		readfile( $file );
