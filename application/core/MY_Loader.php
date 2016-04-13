@@ -1,5 +1,4 @@
 <?php (defined('BASEPATH')) OR exit('No direct script access allowed');
-
 /**
  * @autho	: uncaose@gmail.com
  * @url 	: https://github.com/uncaose/straight-ci-layout
@@ -10,12 +9,10 @@ class MY_Loader extends CI_Loader
 	public $_views = Array();		// view lists
 	public $_skin = '_skin';		// skin
 	public $_layout = '_layout';	// layout
-
 	public function __construct()
 	{
 		parent::__construct();
 	}
-
 	// Extend
 	public function view( $view, $vars = array(), $return = FALSE )
 	{
@@ -31,7 +28,6 @@ class MY_Loader extends CI_Loader
 		}
 		return $this->_views;
 	}
-
 	public function skin( $name='' )
 	{
 		$this->_skin = $name;
@@ -42,7 +38,6 @@ class MY_Loader extends CI_Loader
 	{
 		return $this->_skin;
 	}
-
 	public function layout( $name='' )
 	{
 		$this->_layout = $name;

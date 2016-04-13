@@ -10,27 +10,23 @@ class Asset extends CI_Controller
 
 	public function _remap($method, $params = array())
 	{
-		// path
-		//$file = str_replace( $this->uri->segment(1, 'before'), VIEWPATH, $this->uri->uri_string() );
 		$file = VIEWPATH.$method.(sizeof($params)?'/'.join('/', $params):'');
-		$ext = pathinfo($file, PATHINFO_EXTENSION);
 		
-		if( file_exists($file) )    // CSS, 존재유무
-		{
-			switch( $ext ){
-				case( 'js' ):
-					$this->output->set_header('Content-Type: application/javascript');
-					break;
-				case( 'css' ):
-					$this->output->set_header('Content-type: text/css; charset: UTF-8');
-					break;
-			}
-			readfile( $file );
-		}
-		else
+		if( ! file_exists($file) )    // existst file
 		{
 			show_404();
 		}
+		
+		switch( pathinfo($file, PATHINFO_EXTENSION) ){
+			case( 'js' ):
+				$this->output->set_header('Content-Type: application/javascript');
+				break;
+			case( 'css' ):
+				$this->output->set_header('Content-type: text/css; charset: UTF-8');
+				break;
+		}
+		
+		readfile( $file );
 	}
 }
 
