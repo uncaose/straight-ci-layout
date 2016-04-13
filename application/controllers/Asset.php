@@ -17,15 +17,8 @@ class Asset extends CI_Controller
 			show_404();
 		}
 		
-		switch( pathinfo($file, PATHINFO_EXTENSION) ){
-			case( 'js' ):
-				$this->output->set_header('Content-Type: application/javascript');
-				break;
-			case( 'css' ):
-				$this->output->set_header('Content-type: text/css; charset: UTF-8');
-				break;
-		}
-		
+		$this->load->helper('file');
+		$this->output->set_content_type( get_mime_by_extension($file) );
 		readfile( $file );
 	}
 }
