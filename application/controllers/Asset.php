@@ -1,7 +1,7 @@
 <?php if (!defined('BASEPATH')) exit('No direct script access allowed');
 
 /**
- * @autho	: uncaose@gmail.com
+ * @author	: uncaose@gmail.com
  * @url 	: https://github.com/uncaose/straight-ci-layout
  */
 class Asset extends CI_Controller
