@@ -1,3 +1,3 @@
 (function(){
-    $('h1').html('Welcome To Codeigniter - Stright Layout');
-});
+    document.getElementsByTagName('h1')[0].textContent = 'Welcome To Codeigniter - Stright Layout';
+})();
