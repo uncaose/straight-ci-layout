@@ -1,7 +1,8 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed');
 
 /**
- * User: uncaose@gmail.com
+ * @autho	: uncaose@gmail.com
+ * @url 	: https://github.com/uncaose/straight-ci-layout
  */
 class MY_Controller extends CI_Controller
 {

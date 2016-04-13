@@ -1,6 +1,8 @@
 <?php (defined('BASEPATH')) OR exit('No direct script access allowed');
+
 /**
- * User: uncaose@gmail.com
+ * @autho	: uncaose@gmail.com
+ * @url 	: https://github.com/uncaose/straight-ci-layout
  */
 class MY_Loader extends CI_Loader
 {
@@ -38,6 +40,7 @@ class MY_Loader extends CI_Loader
 	
 	public function getSkin()
 	{
+		return $this->_skin;
 	}
 
 	public function layout( $name='' )
