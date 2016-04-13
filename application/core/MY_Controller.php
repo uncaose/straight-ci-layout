@@ -8,6 +8,8 @@ class MY_Controller extends CI_Controller
 	public function __construct()
 	{
 		parent::__construct();
+		if( ! defined('EXT') ) define('EXT', '.php');	// ci2 EXT redefine
+		if( ! defined('VIEWPATH')  ) defined('VIEWPATH', $this->load->_ci_view_path); // ci3 style
 		$this->load->skin('_skin')->layout('_layout');	// default skin, layout
 	}
 
@@ -26,7 +28,7 @@ class MY_Controller extends CI_Controller
 	// skin
 	private function _straight_skin( $output='' )
 	{
-		if( ! empty($this->load->_skin) && file_exists($path_view.$this->load->_skin.EXT) )
+		if( ! empty($this->load->_skin) && file_exists(VIEWPATH.$this->load->_skin.EXT) )
 		{
 			$output = $this->load->view($this->load->_skin, Array('skin'=>$output), TRUE);
 		}
@@ -36,7 +38,7 @@ class MY_Controller extends CI_Controller
 	// layout
 	private function _straight_layout( $output='' )
 	{
-		if( ! empty($this->load->_layout) && file_exists($path_view.$this->load->_layout.EXT) )
+		if( ! empty($this->load->_layout) && file_exists(VIEWPATH.$this->load->_layout.EXT) )
 		{
 			$output = $this->load->view($this->load->_layout, Array('layout'=>$output), TRUE);
 		}
@@ -50,26 +52,24 @@ class MY_Controller extends CI_Controller
 	// view
 	private function _straight_view( $output='' )
 	{
-		$path_view = defined(VIEWPATH)?VIEWPATH:$this->_ci_view_path;
-		
 		if( isset($this->load->_views) && sizeof($this->load->getView(TRUE)) )
 		{
 			foreach( $this->load->getView(TRUE) AS $_view)
 			{
-				$js = $path_view.$_view.'.js';
-				$css = $path_view.$_view.'.css';
+				$js = VIEWPATH.$_view.'.js';
+				$css = VIEWPATH.$_view.'.css';
 
 				// view js
 				if( file_exists( $js ) )
 				{
-					$js = str_replace($path_view, 'asset/', $js).'?_='.hash('md5', $js );
+					$js = str_replace(VIEWPATH, 'asset/', $js).'?_='.hash('md5', $js );
 					$output = str_replace('</body>', "<script type='text/javascript' src='/{$js}'></script>\n</body>", $output );
 				}
 
 				// view css
 				if( file_exists( $css ) )
 				{
-					$css = str_replace($path_view, 'asset/', $css).'?_='.hash('md5', $css );
+					$css = str_replace(VIEWPATH, 'asset/', $css).'?_='.hash('md5', $css );
 					$output = str_replace('</head>', "<link rel='stylesheet' type='text/css' href='/{$css}' />\n</head>", $output );
 				}
 			}
@@ -77,6 +77,7 @@ class MY_Controller extends CI_Controller
 		return $output;
 	}
 }
+
 
 /**
  * End of File application/library/MY_Controller.php
