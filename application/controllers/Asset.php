@@ -9,7 +9,7 @@ class Asset extends CI_Controller
 	public function __construct()
 	{
 		parent::__construct();
-		if( ! defined('VIEWPATH')  ) defined('VIEWPATH', $this->load->_ci_view_path); // ci3 style
+		if( ! defined('VIEWPATH')  ) define('VIEWPATH', $this->load->_ci_view_path); // ci3 style
 	}
 
 	public function _remap($method, $params = array())
