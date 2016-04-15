@@ -10,7 +10,7 @@ class MY_Controller extends CI_Controller
 	{
 		parent::__construct();
 		if( ! defined('EXT') ) define('EXT', '.php');	// ci2 EXT redefine
-		if( ! defined('VIEWPATH')  ) defined('VIEWPATH', $this->load->_ci_view_path); // ci3 style
+		if( ! defined('VIEWPATH')  ) define('VIEWPATH', $this->load->_ci_view_path); // ci3 style
 		$this->load->skin('_skin')->layout('_layout');	// default skin, layout
 	}
 
