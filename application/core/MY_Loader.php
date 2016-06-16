@@ -5,13 +5,18 @@
  */
 class MY_Loader extends CI_Loader
 {
-	public $_ci_view_path = '';
+	public $_ci_view_path = '';     // ci3
 	public $_views = Array();		// view lists
 	public $_skin = '_skin';		// skin
 	public $_layout = '_layout';	// layout
 	public function __construct()
 	{
 		parent::__construct();
+		// ci2 path setting
+		if( empty($this->_ci_view_path) && ! empty($this->_ci_view_paths) )
+		{
+			$this->_ci_view_path = array_keys($this->_ci_view_paths)[0];
+		}
 	}
 	// Extend
 	public function view( $view, $vars = array(), $return = FALSE )
