@@ -1,31 +1,25 @@
-# straight-ci-layout
+# straight-ci-layout #
+- Using MY_Controller.php
 
-## Use MY_Controller.php
-
-
-### Use Controller
-- http://domain.com/welcome/
-- http://domain.com/welcome/today
+## Controller ##
 <pre>
 // application/core/MY_Controller Extends
-Class Welcome extends MY_Controller
-{
+Class Welcome extends MY_Controller {
     public function index()
     {
         // default skin, layout setting
         // $this->load->skin('_skin')->layout('_layout');
         $this->load->view('welcome_message');
     }
-    
     public function today()
     {
         $this->load->view('welcome/today');
     }
-    
 }
 </pre>
 
-### Source File Locate
+## Source File ##
+
 <pre>
 application/views/
     _layout.php                // default layout auto wrap
@@ -35,7 +29,8 @@ application/views/
     welcome_message.php
 </pre>
 
-### Output
+## Output ##
+
 <pre>
 &lt;html>
 &lt;head>
