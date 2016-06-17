@@ -4,7 +4,7 @@
  * @author	: uncaose@gmail.com
  * @url 	: https://github.com/uncaose/straight-ci-layout
  */
-class Asset extends MY_Controller
+class Asset extends CI_Controller
 {
 	public function __construct()
 	{
@@ -13,6 +13,7 @@ class Asset extends MY_Controller
 
 	public function _remap($method, $params = array())
 	{
+		$this->load->driver('straight');
 		echo $this->straight->layout->asset( $method, $params );
 	}
 }
