@@ -18,11 +18,7 @@ class MY_Controller extends CI_Controller
 	 */
 	public function _output( $output='' )
 	{
-		$output = $this->straight->layout->skin( $output );
-		$output = $this->straight->layout->layout( $output );
-		$output = $this->straight->layout->view2asset( $output );
-
-		echo $output;
+		echo $this->straight->layout->output( $output );
 	}
 }
 

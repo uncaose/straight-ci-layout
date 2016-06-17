@@ -27,7 +27,7 @@ class Straight_layout Extends CI_Driver
 		readfile( $file );
 	}
 
-	public function skin( $output='' )
+	private function skin( $output='' )
 	{
 		if( ! empty($this->CI->load->_skin) && file_exists(VIEWPATH.$this->CI->load->_skin.EXT) )
 		{
@@ -36,7 +36,7 @@ class Straight_layout Extends CI_Driver
 		return $output;
 	}
 
-	public function layout( $output='' )
+	private function layout( $output='' )
 	{
 		if( ! empty($this->CI->load->_layout) && file_exists(VIEWPATH.$this->CI->load->_layout.EXT) )
 		{
@@ -50,7 +50,7 @@ class Straight_layout Extends CI_Driver
 	}
 	
 	
-	public function view2asset( $output='' )
+	private function view2asset( $output='' )
 	{
 		if( isset($this->CI->load->_views) && sizeof($this->CI->load->getView(TRUE)) )
 		{
@@ -74,6 +74,15 @@ class Straight_layout Extends CI_Driver
 				}
 			}
 		}
+		return $output;
+	}
+
+	public function output( $output='' )
+	{
+		$output = $this->skin( $output );
+		$output = $this->layout( $output );
+		$output = $this->view2asset( $output );
+
 		return $output;
 	}
 }
