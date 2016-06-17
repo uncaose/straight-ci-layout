@@ -8,7 +8,8 @@
 - http://domain.com/welcome/today
 <pre>
 // application/core/MY_Controller Extends
-class Welcome extends MY_Controller {
+Class Welcome extends MY_Controller
+{
     public function index()
     {
         // default skin, layout setting
