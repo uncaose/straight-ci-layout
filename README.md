@@ -1,6 +1,11 @@
 # straight-ci-layout #
 - Using MY_Controller.php
 
+## Apply CI version ##
+- Codeigniter 2.2.6
+- Codeigniter 3.0.6
+- Version 2 will all be higher.
+
 ## Controller ##
 <pre>
 // application/core/MY_Controller Extends
@@ -8,7 +13,7 @@ Class Welcome extends MY_Controller {
     public function index()
     {
         // default skin, layout setting
-        // $this->load->skin('_skin')->layout('_layout');
+        // $this->load->setSkin('_skin')->setLayout('_layout');
         $this->load->view('welcome_message');
     }
     public function today()

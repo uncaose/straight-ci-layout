@@ -33,7 +33,8 @@ class MY_Loader extends CI_Loader
 		}
 		return $this->_views;
 	}
-	public function skin( $name='' )
+	
+	public function setSkin( $name='' )
 	{
 		$this->_skin = $name;
 		return $this;
@@ -43,7 +44,7 @@ class MY_Loader extends CI_Loader
 	{
 		return $this->_skin;
 	}
-	public function layout( $name='' )
+	public function setLayout( $name='' )
 	{
 		$this->_layout = $name;
 		return $this;

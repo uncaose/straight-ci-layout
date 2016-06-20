@@ -25,6 +25,6 @@ class Straight extends CI_Driver_Library
 	{
 		if( ! defined('EXT') ) define('EXT', '.php');	// ci2 EXT redefine
 		if( ! defined('VIEWPATH')  ) define('VIEWPATH', $this->CI->load->_ci_view_path); // ci3 style
-		$this->CI->load->skin('_skin')->layout('_layout');	// default skin, layout
+		$this->CI->load->setSkin('_skin')->setLayout('_layout');	// default skin, layout
 	}
 }
