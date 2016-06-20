@@ -10,7 +10,7 @@ class Straight_layout Extends CI_Driver
 {
 	public function asset($method, $params = array())
 	{
-		$file = VIEWPATH.$method.(sizeof($params)?'/'.join('/', $params):'');
+		$file = VIEWPATH.(sizeof($params)?'/'.join('/', $params):'');
 
 		if( ! file_exists($file) )    // existst file
 		{
@@ -62,14 +62,14 @@ class Straight_layout Extends CI_Driver
 				// view js
 				if( file_exists( $js ) )
 				{
-					$js = str_replace(VIEWPATH, $this->CI->config->item('asset_controller', 'straight').'/', $js).'?_='.hash('md5', $js );
+					$js = str_replace(VIEWPATH, $this->CI->config->item('asset_controller', 'straight').'/js/', $js).'?_='.hash('md5', $js );
 					$output = str_replace('</body>', "<script type='text/javascript' src='/{$js}'></script>\n</body>", $output );
 				}
 				
 				// view css
 				if( file_exists( $css ) )
 				{
-					$css = str_replace(VIEWPATH, $this->CI->config->item('asset_controller', 'straight').'/', $css).'?_='.hash('md5', $css );
+					$css = str_replace(VIEWPATH, $this->CI->config->item('asset_controller', 'straight').'/css/', $css).'?_='.hash('md5', $css );
 					$output = str_replace('</head>', "<link rel='stylesheet' type='text/css' href='/{$css}' />\n</head>", $output );
 				}
 			}
