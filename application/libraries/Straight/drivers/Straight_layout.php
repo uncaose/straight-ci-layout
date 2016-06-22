@@ -8,23 +8,73 @@
  */
 class Straight_layout Extends CI_Driver
 {
-	public function asset($method, $params = array())
+	public function asset( $file='' )
 	{
-		$file = VIEWPATH.(sizeof($params)?'/'.join('/', $params):'');
-
-		if( ! file_exists($file) )    // existst file
+		if( empty($file) || ! file_exists($file) )    // existst file
 		{
-			show_404();
+			header('HTTP/1.0 404 Not Found');
+			exit;
 		}
 
-		if( ! in_array(pathinfo($file, PATHINFO_EXTENSION), Array('js', 'css')) )
+		$ext = pathinfo( $file, PATHINFO_EXTENSION );
+		switch( TRUE )
 		{
-			show_404();
+			case( $ext === 'js' ):
+				header('Content-Type: text/javascript');
+			case( $ext === 'css' ):
+				header('Content-Type: text/css');
+				$this->webCache( $file );
+				break;
+			default:
+				header('HTTP/1.0 404 Not Found');
+				exit;
+				break;
 		}
 
 		$this->CI->load->helper('file');
 		$this->CI->output->set_content_type( get_mime_by_extension($file) );
 		readfile( $file );
+	}
+
+	// 30758400 : 1 year
+	public function webCache( $file='', $time=30758400 )
+	{
+		if( empty($file) || ! file_exists($file) )    // existst file
+		{
+			header('HTTP/1.0 404 Not Found');
+			exit;
+		}
+
+		$lastModifTime = filemtime($file);
+		$Etag = hash_file('sha256', $file);
+
+		// last modify
+		if( ! empty($lastModifTime) )
+		{
+			header("Last-Modified: ".gmdate("D, d M Y H:i:s", $lastModifTime)." GMT");
+		}
+
+		// Etag
+		if( ! empty($Etag) )
+		{
+			header("Etag: {$Etag}");
+		}
+
+		// checkt last time & Etag
+		if ( ( isset($_SERVER['HTTP_IF_MODIFIED_SINCE']) && strtotime($_SERVER['HTTP_IF_MODIFIED_SINCE']) == $lastModifTime  )
+			|| ( ! empty($Etag) && isset($_SERVER['HTTP_IF_NONE_MATCH']) && trim($_SERVER['HTTP_IF_NONE_MATCH']) == $Etag) )
+		{
+			// Not Modify
+			header("HTTP/1.1 304 Not Modified");
+			exit;
+		}
+
+		// set Cache Header
+		header('Vary: Accept-Encoding');
+		header("Expires: ".gmdate("D, d M Y H:i:s", time()+$time)." GMT");
+		header('Pragma: cache');
+		header('Cache-Control: public');
+		header("Cache-Control: max-age=".$time);
 	}
 
 	private function skin( $output='' )

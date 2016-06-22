@@ -11,10 +11,11 @@ class Asset extends CI_Controller
 		parent::__construct();
 	}
 
-	public function _remap($method, $params = array())
+	public function _remap( $method, $params = array() )
 	{
+
 		$this->load->driver('straight');
-		echo $this->straight->layout->asset( $method, $params );
+		echo $this->straight->layout->asset( VIEWPATH.join('/', $params) );
 	}
 }
 
