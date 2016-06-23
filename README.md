@@ -41,12 +41,12 @@ application/views/
 &lt;html>
 &lt;head>
     ...
-&lt;link rel='stylesheet' type='text/css' href='/asset/css/welcome_message.css?_=b7ea82de66456fa21a534be873010e57' />
-&lt;link rel='stylesheet' type='text/css' href='/asset/css/_layout.css?_=7db2ce2e92f6102726b5e42c93e3ff9a' />
+    &lt;link rel='stylesheet' type='text/css' href='/asset/css/welcome_message.css' />
+    &lt;link rel='stylesheet' type='text/css' href='/asset/css/_layout.css' />
 &lt;/head>
 &lt;body>
     ...
-&lt;script type='text/javascript' src='/asset/js/welcome_message.js?_=0adebfced0f5c2cfece1dbcbaaaa53b0'>&lt;/script>
+    &lt;script type='text/javascript' src='/asset/js/welcome_message.js'>&lt;/script>
 &lt;/body>
 &lt;/html>
 </pre>

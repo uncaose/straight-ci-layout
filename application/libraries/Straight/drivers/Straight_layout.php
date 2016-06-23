@@ -106,21 +106,24 @@ class Straight_layout Extends CI_Driver
 		{
 			foreach( $this->CI->load->getView(TRUE) AS $_view)
 			{
+				$asset_path = $this->CI->config->item('asset_controller', 'straight');
+				$nocache_uri = $this->CI->config->item('asset_nocache_uri', 'straight');
+				$hashkey = $this->CI->config->item('asset_hashkey', 'straight');
 				$js = VIEWPATH.$_view.'.js';
 				$css = VIEWPATH.$_view.'.css';
-				
+
 				// view js
 				if( file_exists( $js ) )
 				{
-					$js = str_replace(VIEWPATH, $this->CI->config->item('asset_controller', 'straight').'/js/', $js).'?_='.hash('md5', $js );
-					$output = str_replace('</body>', "<script type='text/javascript' src='/{$js}'></script>\n</body>", $output );
+					$js = str_replace(VIEWPATH, $asset_path.'/js/', $js).($nocache_uri?'?_='.hash($hashkey, $js ):'');
+					$output = str_replace('</body>', "\n\t<script type='text/javascript' src='/{$js}'></script>\n</body>", $output );
 				}
 				
 				// view css
 				if( file_exists( $css ) )
 				{
-					$css = str_replace(VIEWPATH, $this->CI->config->item('asset_controller', 'straight').'/css/', $css).'?_='.hash('md5', $css );
-					$output = str_replace('</head>', "<link rel='stylesheet' type='text/css' href='/{$css}' />\n</head>", $output );
+					$css = str_replace(VIEWPATH, $asset_path.'/css/', $css).($nocache_uri?'?_='.hash($hashkey, $css ):'');
+					$output = str_replace('</head>', "\t<link rel='stylesheet' type='text/css' href='/{$css}' />\n</head>", $output );
 				}
 			}
 		}
