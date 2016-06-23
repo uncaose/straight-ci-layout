@@ -81,7 +81,7 @@ class Straight_layout Extends CI_Driver
 	{
 		if( ! empty($this->CI->load->_skin) && file_exists(VIEWPATH.$this->CI->load->_skin.EXT) )
 		{
-			$output = $this->CI->load->view($this->CI->load->_skin, Array('skin'=>$output), TRUE);
+			$output = $this->CI->load->view( $this->CI->load->_skin, Array('skin'=>$output), TRUE, TRUE );
 		}
 		return $output;
 	}
@@ -90,7 +90,7 @@ class Straight_layout Extends CI_Driver
 	{
 		if( ! empty($this->CI->load->_layout) && file_exists(VIEWPATH.$this->CI->load->_layout.EXT) )
 		{
-			$output = $this->CI->load->view($this->CI->load->_layout, Array('layout'=>$output), TRUE);
+			$output = $this->CI->load->view( $this->CI->load->_layout, Array('layout'=>$output), TRUE, TRUE );
 		}
 		else
 		{
@@ -118,7 +118,7 @@ class Straight_layout Extends CI_Driver
 					$js = str_replace(VIEWPATH, $asset_path.'/js/', $js).($nocache_uri?'?_='.hash($this->config['asset_hashkey'], $js ):'');
 					$output = str_replace('</body>', "\n\t<script type='text/javascript' src='/{$js}'></script>\n</body>", $output );
 				}
-				
+
 				// view css
 				if( file_exists( $css ) )
 				{

@@ -18,10 +18,18 @@ class MY_Loader extends CI_Loader
 			$this->_ci_view_path = array_keys($this->_ci_view_paths)[0];
 		}
 	}
+	
 	// Extend
-	public function view( $view, $vars = array(), $return = FALSE )
+	public function view( $view, $vars = array(), $return = FALSE, $unshift = FALSE )
 	{
-		$this->_views[] = substr($view, strpos($view, '/')===0?1:0); // 뷰 로드 저장
+		if( $unshift )
+		{
+			array_unshift( $this->_views, substr($view, strpos($view, '/')===0?1:0) ); // 뷰 로드 저장
+		}
+		else
+		{
+			array_push( $this->_views, substr($view, strpos($view, '/')===0?1:0) ); // 뷰 로드 저장
+		}
 		return parent::view($view, $vars, $return);
 	}
 	
