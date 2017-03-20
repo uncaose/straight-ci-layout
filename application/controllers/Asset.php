@@ -6,14 +6,11 @@
  */
 class Asset extends CI_Controller
 {
-	public function __construct()
-	{
+	public function __construct() {
 		parent::__construct();
 	}
 
-	public function _remap( $method, $params = array() )
-	{
-
+	public function _remap( $method, $params = array() ) {
 		$this->load->driver('straight');
 		echo $this->straight->layout->asset( VIEWPATH.join('/', $params) );
 	}
