@@ -9,15 +9,15 @@
 ## Controller ##
 <pre>
 // application/core/MY_Controller Extends
-Class Welcome extends MY_Controller {
-    public function index()
-    {
+Class Welcome extends MY_Controller
+{
+    public function index() {
         // default skin, layout setting
         // $this->load->setSkin('_skin')->setLayout('_layout');
         $this->load->view('welcome_message');
     }
-    public function today()
-    {
+    
+    public function today() {
         $this->load->view('welcome/today');
     }
 }
