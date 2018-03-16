@@ -50,11 +50,11 @@ application/views/
 &lt;/head>
 &lt;body>
     
-    <_layout.php>
-        <_skin.php>
+    &lt;_layout.php>
+        &lt;_skin.php>
             ... welcome_message.php contents ...
-        </_skin.php>
-    </_layout.php>
+        &lt;/_skin.php>
+    &lt;/_layout.php>
 
     &lt;script type='text/javascript' src='/asset/js/_layout.js'>&lt;/script>
     &lt;script type='text/javascript' src='/asset/js/_skin.js'>&lt;/script>
