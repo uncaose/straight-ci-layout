@@ -3,7 +3,7 @@
 
 ## Apply CI version ##
 - Codeigniter 2.2.6
-- Codeigniter 3.0.6
+- Codeigniter 3.1.7
 - Version 2 will all be higher.
 
 ## Controller ##
@@ -49,7 +49,9 @@ application/views/
     &lt;link rel='stylesheet' type='text/css' href='/asset/css/welcome_message.css' />
 &lt;/head>
 &lt;body>
-    ...
+    
+    ... welcome_message.php contents ...
+
     &lt;script type='text/javascript' src='/asset/js/_layout.js'>&lt;/script>
     &lt;script type='text/javascript' src='/asset/js/_skin.js'>&lt;/script>
     &lt;script type='text/javascript' src='/asset/js/welcome_message.js'>&lt;/script>
