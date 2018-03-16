@@ -18,5 +18,5 @@ $config['view_skin'] = '_skin';
 $config['view_layout'] = '_layout';
 
 /**
- * End of File config/Straight.php
+ * End of File config/straight.php
  */

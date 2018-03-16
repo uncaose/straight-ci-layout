@@ -53,7 +53,7 @@
  *
  * NOTE: If you change these, also change the error_reporting() code below
  */
-	define('ENVIRONMENT', isset($_SERVER['CI_ENV']) ? $_SERVER['CI_ENV'] : 'development');
+	define('ENVIRONMENT', isset($_SERVER['CI_ENV']) ? $_SERVER['CI_ENV'] : 'production');
 
 /*
  *---------------------------------------------------------------
@@ -65,7 +65,7 @@
  */
 switch (ENVIRONMENT)
 {
-	case 'development':
+    case 'development':
 		error_reporting(-1);
 		ini_set('display_errors', 1);
 	break;
@@ -98,6 +98,8 @@ switch (ENVIRONMENT)
  * Set the path if it is not in the same directory as this file.
  */
 	$system_path = 'system';
+    $system_path = '../CodeIgniter-3.1.7/system';
+	$system_path = '../CodeIgniter-2.2.6/system';
 
 /*
  *---------------------------------------------------------------
