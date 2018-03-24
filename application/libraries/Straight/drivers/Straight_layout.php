@@ -8,6 +8,25 @@
  */
 class Straight_layout Extends CI_Driver
 {
+	public function header( $file = '' )
+	{
+		$ext = pathinfo( $file, PATHINFO_EXTENSION );
+		switch( TRUE )
+		{
+			case( $ext === 'js' ):
+				header('Content-Type: text/javascript');
+				break;
+			case( $ext === 'css' ):
+				header('Content-Type: text/css');
+				break;
+			default:
+				header('HTTP/1.0 404 Not Found');
+				exit;
+			break;
+		}
+		$this->webCache( $file );
+	}
+
 	public function asset( $file='' )
 	{
 		if( empty($file) || ! file_exists($file) )    // existst file
@@ -16,24 +35,13 @@ class Straight_layout Extends CI_Driver
 			exit;
 		}
 
-		$ext = pathinfo( $file, PATHINFO_EXTENSION );
-		switch( TRUE )
-		{
-			case( $ext === 'js' ):
-				header('Content-Type: text/javascript');
-			case( $ext === 'css' ):
-				header('Content-Type: text/css');
-				$this->webCache( $file );
-				break;
-			default:
-				header('HTTP/1.0 404 Not Found');
-				exit;
-				break;
-		}
-
 		$this->CI->load->helper('file');
 		$this->CI->output->set_content_type( get_mime_by_extension($file) );
+		ob_start();
 		readfile( $file );
+		$content = ob_get_clean();
+
+		return $content;
 	}
 
 	// 30758400 : 1 year
@@ -48,18 +56,6 @@ class Straight_layout Extends CI_Driver
 		$lastModifTime = filemtime($file);
 		$Etag = hash_file($this->config['asset_hashkey'], $file);
 
-		// last modify
-		if( ! empty($lastModifTime) )
-		{
-			header("Last-Modified: ".gmdate("D, d M Y H:i:s", $lastModifTime)." GMT");
-		}
-
-		// Etag
-		if( ! empty($Etag) )
-		{
-			header("Etag: {$Etag}");
-		}
-
 		// checkt last time & Etag
 		if ( ( isset($_SERVER['HTTP_IF_MODIFIED_SINCE']) && strtotime($_SERVER['HTTP_IF_MODIFIED_SINCE']) == $lastModifTime  )
 			|| ( ! empty($Etag) && isset($_SERVER['HTTP_IF_NONE_MATCH']) && trim($_SERVER['HTTP_IF_NONE_MATCH']) == $Etag) )
@@ -72,6 +68,8 @@ class Straight_layout Extends CI_Driver
 		// set Cache Header
 		header('Vary: Accept-Encoding');
 		header("Expires: ".gmdate("D, d M Y H:i:s", time()+$time)." GMT");
+		header("Last-Modified: ".gmdate("D, d M Y H:i:s", $lastModifTime)." GMT");
+		header("Etag: {$Etag}");
 		header('Pragma: cache');
 		header('Cache-Control: public');
 		header("Cache-Control: max-age=".$time);
