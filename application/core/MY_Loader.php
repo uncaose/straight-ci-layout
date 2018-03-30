@@ -13,7 +13,33 @@ class MY_Loader extends CI_Loader
 	public function __construct() {
 		parent::__construct();
 		if( empty($this->_ci_view_path) && ! empty($this->_ci_view_paths) ) { // ci2 path setting
-			$this->_ci_view_path = array_keys($this->_ci_view_paths)[0];
+			list($this->_ci_view_path) = array_keys($this->_ci_view_paths);
+		}
+
+		if( CI_VERSION < "3.0.0"  )	// ci2 에서 composer_autoload apply
+		{
+			$this->_composer_autoload();	
+		}
+	}
+
+	private function _composer_autoload()
+	{
+		if ($composer_autoload = config_item('composer_autoload'))
+		{
+			if ($composer_autoload === TRUE)
+			{
+				file_exists(APPPATH.'vendor/autoload.php')
+					? require_once(APPPATH.'vendor/autoload.php')
+					: log_message('error', '$config[\'composer_autoload\'] is set to TRUE but '.APPPATH.'vendor/autoload.php was not found.');
+			}
+			elseif (file_exists($composer_autoload))
+			{
+				require_once($composer_autoload);
+			}
+			else
+			{
+				log_message('error', 'Could not find the specified $config[\'composer_autoload\'] path: '.$composer_autoload);
+			}
 		}
 	}
 	

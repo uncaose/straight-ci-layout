@@ -12,25 +12,36 @@ class Asset extends CI_Controller
 		parent::__construct();
 	}
 
-	public function _remap( $method, $params = array() ) {
+	public function js()
+	{
+		$file = VIEWPATH.join('/', func_get_args());
 
-		$file = VIEWPATH.join('/', $params);
-		
 		$this->load->driver('straight');
 		$this->straight->layout->header( $file );
 
 		if( class_exists('MatthiasMullie\\Minify\\JS') )
 		{
-			if( $method == 'js' ){
-				$minifier = new Minify\JS( $file );
-			}else{
-				$minifier = new Minify\CSS( $file );
-			}
+			$minifier = new Minify\JS( $file );
 			echo $minifier->minify();
 		}else{
 			echo $this->straight->layout->asset( $file );
 		}
+	}
+	
+	public function css()
+	{
+		$file = VIEWPATH.join('/', func_get_args());
 
+		$this->load->driver('straight');
+		$this->straight->layout->header( $file );
+
+		if( class_exists('MatthiasMullie\\Minify\\CSS') )
+		{
+			$minifier = new Minify\CSS( $file );
+			echo $minifier->minify();
+		}else{
+			echo $this->straight->layout->asset( $file );
+		}
 	}
 }
 
