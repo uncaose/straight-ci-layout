@@ -28,7 +28,7 @@ class Asset extends CI_Controller
 			}
 			echo $minifier->minify();
 		}else{
-			$this->straight->layout->asset( $file );
+			echo $this->straight->layout->asset( $file );
 		}
 
 	}

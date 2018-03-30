@@ -16,6 +16,9 @@
 		<p>If you are exploring CodeIgniter for the very first time, you should start by reading the <a href="user_guide/">User Guide</a>.</p>
 
 		<p>
+			CI_VERSION : <?php echo CI_VERSION?> / ENVIRONMENT : <?php echo ENVIRONMENT?>
+		</p>
+		<p>
 			<a href="https://github.com/uncaose/straight-ci-layout" target="_blank">https://github.com/uncaose/straight-ci-layout</a>
 		</p>
 	</div>
