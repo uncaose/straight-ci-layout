@@ -8,7 +8,8 @@
 
 ## Ex Controller ##
 <h2>controllers/Welcome.php</h2>
-<pre>
+<code>
+<?php
 Class Welcome extends MY_Controller
 {
     public function index() {
@@ -21,7 +22,7 @@ Class Welcome extends MY_Controller
         $this->load->view('welcome/today');
     }
 }
-</pre>
+</code>
 <h2>controllers/straight/Welcome.php</h2>
 <pre>
 class Welcome extends MY_Controller
