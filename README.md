@@ -6,7 +6,7 @@
 - Codeigniter 3.1.7
 - Version 2 will all be higher.
 
-## Controller ##
+## Ex Controller ##
 <h2>controllers/Welcome.php</h2>
 <pre>
 Class Welcome extends MY_Controller
@@ -16,7 +16,7 @@ Class Welcome extends MY_Controller
         // $this->load->skin('_skin')->layout('_layout');
         $this->load->view('welcome_message');
     }
-    
+
     public function today() {
         $this->load->view('welcome/today');
     }
@@ -38,7 +38,7 @@ class Welcome extends MY_Controller
 }
 </pre>
 
-## Source File ##
+## Ex View File ##
 
 <pre>
 views/
@@ -63,7 +63,7 @@ views/straight/depth
 
 </pre>
 
-## Output ##
+## Ex Output ##
 
 <pre>
 &lt;html>
