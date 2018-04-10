@@ -60,23 +60,24 @@ class MY_Loader extends CI_Loader
 		return $this->_views;
 	}
 	
-	public function setSkin( $name='' ) {
+	public function skin( $name = '' ) {
 		$this->_skin = $name;
 		return $this;
 	}
-	
+
 	public function getSkin() {
 		return $this->_skin;
 	}
 
-	public function setLayout( $name='' ) {
+	public function layout( $name = '' ) {
 		$this->_layout = $name;
 		return $this;
 	}
-	
+
 	public function getLayout() {
 		return $this->_layout;
 	}
+
 }
 
 /**

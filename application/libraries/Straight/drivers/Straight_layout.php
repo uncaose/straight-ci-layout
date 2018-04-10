@@ -77,7 +77,18 @@ class Straight_layout Extends CI_Driver
 
 	private function skin( $output='' )
 	{
-		if( ! empty($this->CI->load->_skin) && file_exists(VIEWPATH.$this->CI->load->_skin.EXT) )
+		if( $this->CI->load->_skin != $this->CI->config->item('view_skin') )
+		{
+			$path = substr($this->CI->load->_views[0], 0, strrpos($this->CI->load->_views[0], '/'));
+			$skin = $path.'/'.str_replace(EXT, '', $this->CI->load->_skin);
+
+			if( file_exists(VIEWPATH.$skin.EXT) )
+			{
+				$this->CI->load->_skin = $skin;
+			}
+		}
+
+		if( file_exists(VIEWPATH.$this->CI->load->_skin.EXT) )
 		{
 			$output = $this->CI->load->view( $this->CI->load->_skin, Array('skin'=>$output), TRUE, TRUE );
 		}
@@ -86,7 +97,18 @@ class Straight_layout Extends CI_Driver
 
 	private function layout( $output='' )
 	{
-		if( ! empty($this->CI->load->_layout) && file_exists(VIEWPATH.$this->CI->load->_layout.EXT) )
+		if( $this->CI->load->_layout != $this->CI->config->item('view_layout') )
+		{
+			$path = substr($this->CI->load->_views[0], 0, strrpos($this->CI->load->_views[0], '/'));
+			$layout = $path.'/'.str_replace(EXT, '', $this->CI->load->_layout);
+	
+			if( file_exists(VIEWPATH.$layout.EXT) )
+			{
+				$this->CI->load->_layout = $layout;
+			}
+		}
+
+		if( file_exists(VIEWPATH.$this->CI->load->_layout.EXT) )
 		{
 			$output = $this->CI->load->view( $this->CI->load->_layout, Array('layout'=>$output), TRUE, TRUE );
 		}

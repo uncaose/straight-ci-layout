@@ -21,6 +21,11 @@
 		<p>
 			<a href="https://github.com/uncaose/straight-ci-layout" target="_blank">https://github.com/uncaose/straight-ci-layout</a>
 		</p>
+
+		<ul>
+			<li><a href="/straight/welcome">/straight/welcome</a></li>
+			<li><a href="/straight/welcome/depth">/straight/welcome/depth</a></li>
+		</ul>
 	</div>
 	
 	<p class="footer">Page rendered in <strong>{elapsed_time}</strong> seconds. <?php echo  (ENVIRONMENT === 'development') ?  'CodeIgniter Version <strong>' . CI_VERSION . '</strong>' : '' ?></p>
