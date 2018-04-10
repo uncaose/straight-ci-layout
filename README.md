@@ -26,15 +26,15 @@ Class Welcome extends MY_Controller
 <pre>
 class Welcome extends MY_Controller
 {
-	public function index()
-	{
-		$this->load->view('straight/welcome');
-	}
+    public function index()
+    {
+        $this->load->view('straight/welcome');
+    }
 
-	public function depth()
-	{
-		$this->load->layout('straight/_layout')->view('straight/depth/depth');
-	}
+    public function depth()
+    {
+        $this->load->layout('straight/_layout')->view('straight/depth/depth');
+    }
 }
 </pre>
 
@@ -52,14 +52,14 @@ views/
     welcome_message.js         // isset {view}.js auto asset
     welcome_message.php
 views/straight/
-		_layout_another.php
-		_layout.php
-		_skin.php
-		welcome.php
+        _layout_another.php
+        _layout.php
+        _skin.php
+        welcome.php
 views/straight/depth
-			_skin.php
-			_skin.css
-			depth.php
+            _skin.php
+            _skin.css
+            depth.php
 
 </pre>
 
@@ -91,12 +91,12 @@ views/straight/depth
 ## layout, skin ##
 <pre>
 views/
-	_layout.php
-	_skin.php
+    _layout.php
+    _skin.php
 views/straight/
-		_layout.php
-		_skin.php
-		welcome.php
+        _layout.php
+        _skin.php
+        welcome.php
 
 load : straight/welcome.php
 load : straight/_skin.php
@@ -105,10 +105,10 @@ load : straight/_layout.php
 
 <pre>
 views/
-	_layout.php
-	_skin.php
+    _layout.php
+    _skin.php
 views/straight/
-		welcome.php
+        welcome.php
 
 load : straight/welcome.php
 load : _skin.php
@@ -117,14 +117,14 @@ load : _layout.php
 
 <pre>
 views/
-	_layout.php
-	_skin.php
+    _layout.php
+    _skin.php
 views/straight/
-		_layout_another.php
-		_layout.php
-		_skin.php
-		welcome.php
-			&lt;?php $this->load->skin('_skin')->set('straight/_layout_another'); ?&gt;
+        _layout_another.php
+        _layout.php
+        _skin.php
+        welcome.php
+            &lt;?php $this->load->skin('_skin')->set('straight/_layout_another'); ?&gt;
 
 load : straight/welcome.php
 load : _skin.php
