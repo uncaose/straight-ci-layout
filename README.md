@@ -8,23 +8,16 @@
 
 ## Ex Controller ##
 <h2>controllers/Welcome.php</h2>
-<code>
-<?php
+```php
 Class Welcome extends MY_Controller
 {
     public function index() {
-        // default skin, layout setting
-        // $this->load->skin('_skin')->layout('_layout');
         $this->load->view('welcome_message');
     }
-
-    public function today() {
-        $this->load->view('welcome/today');
-    }
 }
-</code>
+```
 <h2>controllers/straight/Welcome.php</h2>
-<pre>
+```php
 class Welcome extends MY_Controller
 {
     public function index()
@@ -37,11 +30,11 @@ class Welcome extends MY_Controller
         $this->load->layout('straight/_layout')->view('straight/depth/depth');
     }
 }
-</pre>
+```
 
 ## Ex View File ##
 
-<pre>
+```
 views/
     _layout.css
     _layout.js
@@ -61,12 +54,11 @@ views/straight/depth
             _skin.php
             _skin.css
             depth.php
-
-</pre>
+```
 
 ## Ex Output ##
 
-<pre>
+```html
 &lt;html>
 &lt;head>
     ...
@@ -87,10 +79,10 @@ views/straight/depth
     &lt;script type='text/javascript' src='/asset/js/welcome_message.js'>&lt;/script>
 &lt;/body>
 &lt;/html>
-</pre>
+```
 
-## layout, skin ##
-<pre>
+## Ex layout, skin ##
+```
 views/
     _layout.php
     _skin.php
@@ -102,9 +94,9 @@ views/straight/
 load : straight/welcome.php
 load : straight/_skin.php
 load : straight/_layout.php
-</pre>
+```
 
-<pre>
+```
 views/
     _layout.php
     _skin.php
@@ -114,9 +106,9 @@ views/straight/
 load : straight/welcome.php
 load : _skin.php
 load : _layout.php
-</pre>
+```
 
-<pre>
+```
 views/
     _layout.php
     _skin.php
@@ -130,4 +122,4 @@ views/straight/
 load : straight/welcome.php
 load : _skin.php
 load : straight/_layout_another.php
-</pre>
+```
