@@ -24,6 +24,7 @@ class Straight_layout Extends CI_Driver
 				exit;
 			break;
 		}
+		$this->webCache( $file );
 	}
 
 	public function asset( $file='' )
@@ -46,14 +47,20 @@ class Straight_layout Extends CI_Driver
 	// 30758400 : 1 year
 	public function webCache( $file='', $time=30758400 )
 	{
-		if( empty($file) || ! file_exists($file) )    // existst file
+		if( empty($file) )    // existst file
 		{
 			header('HTTP/1.0 404 Not Found');
 			exit;
 		}
 
-		$lastModifTime = filemtime($file);
-		$Etag = hash_file($this->config['asset_hashkey'], $file);
+		$lastModifTime = '';
+		if( file_exists($file) )
+		{
+			$lastModifTime = filemtime($file);
+			$Etag = hash_file($this->config['asset_hashkey'], $file);
+		}else{
+			$Etag = hash($this->config['asset_hashkey'], $file);
+		}
 
 		// checkt last time & Etag
 		if ( ( isset($_SERVER['HTTP_IF_MODIFIED_SINCE']) && strtotime($_SERVER['HTTP_IF_MODIFIED_SINCE']) == $lastModifTime  )
@@ -67,7 +74,7 @@ class Straight_layout Extends CI_Driver
 		// set Cache Header
 		header('Vary: Accept-Encoding');
 		header("Expires: ".gmdate("D, d M Y H:i:s", time()+$time)." GMT");
-		header("Last-Modified: ".gmdate("D, d M Y H:i:s", $lastModifTime)." GMT");
+		if( ! empty($lastModifTime) ) header("Last-Modified: ".gmdate("D, d M Y H:i:s", $lastModifTime)." GMT");
 		header("Etag: {$Etag}");
 		header('Pragma: cache');
 		header('Cache-Control: public');

@@ -10,6 +10,7 @@ class Asset extends CI_Controller
 {
 	public function __construct() {
 		parent::__construct();
+		$this->config->load('straight', TRUE, FALSE);
 	}
 
 	public function js()
@@ -18,7 +19,6 @@ class Asset extends CI_Controller
 
 		$this->load->driver('straight');
 		$this->straight->layout->header( $file );
-		$this->straight->layout->webCache( $file );
 
 		if( class_exists('MatthiasMullie\\Minify\\JS') )
 		{
@@ -35,7 +35,6 @@ class Asset extends CI_Controller
 
 		$this->load->driver('straight');
 		$this->straight->layout->header( $file );
-		$this->straight->layout->webCache( $file );
 
 		if( class_exists('MatthiasMullie\\Minify\\CSS') )
 		{
@@ -48,35 +47,25 @@ class Asset extends CI_Controller
 
 	public function combine( $file = '' )
 	{
-		$this->config->load('straight', FALSE, TRUE);
-		$config = $this->config->item('asset_combine');
+		$config = $this->config->item('straight');
 
 		$key = substr($file, 0, strrpos($file, '.'));
 		if( empty($key) 
-			|| ! $config['combine']
-			|| ! $this->load->driver('cache', $config['adapter'] )
+			|| ! $config['asset_combine']['combine']
+			|| ! $this->load->driver('cache', $config['asset_combine']['adapter'] )
 			|| ! $cache = $this->cache->get($key) )
 		{
 			show_404();
 		}
 
-		$ext = pathinfo( $file, PATHINFO_EXTENSION );
+		$this->load->driver('straight');
+		$this->straight->layout->header( $file );
+		
 		$cache = json_decode($cache, TRUE);
-		// $this->load->driver('straight');
-		// $this->straight->layout->header( $file );
-		switch( $ext ){
-			case( 'js' ):
-				header('Content-Type: text/javascript');
-			break;
-			case( 'css' ):
-				header('Content-Type: text/css');
-			break;
-		}
-
 		foreach( $cache AS $hash => $file )
 		{
 			$file = VIEWPATH.$file;
-			switch( $ext ){
+			switch( pathinfo( $file, PATHINFO_EXTENSION ) ){
 				case( 'js' ):
 					if( class_exists('MatthiasMullie\\Minify\\JS') )
 					{
