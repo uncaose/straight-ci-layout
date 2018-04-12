@@ -24,7 +24,6 @@ class Straight_layout Extends CI_Driver
 				exit;
 			break;
 		}
-		$this->webCache( $file );
 	}
 
 	public function asset( $file='' )
@@ -122,31 +121,90 @@ class Straight_layout Extends CI_Driver
 	
 	private function view2asset( $output='' )
 	{
-		if( isset($this->CI->load->_views) && sizeof($this->CI->load->getView(TRUE)) )
+		$asset_path = $this->config['asset_controller'];
+		$nocache_uri = $this->config['asset_nocache_uri'];
+		$views = $this->CI->load->getView(TRUE);
+
+		foreach( $views AS $v )
 		{
-			foreach( $this->CI->load->getView(TRUE) AS $_view)
+			$js = VIEWPATH.$v.'.js';
+			$css = VIEWPATH.$v.'.css';
+
+			// view js
+			if( file_exists( $js ) )
 			{
-				$asset_path = $this->config['asset_controller'];
-				$nocache_uri = $this->config['asset_nocache_uri'];
+				$js = str_replace(VIEWPATH, $asset_path.'/js/', $js).($nocache_uri?'?_='.hash($this->config['asset_hashkey'], $js ):'');
+				$output = str_replace('</body>', "\n\t<script type='text/javascript' src='/{$js}'></script>\n</body>", $output );
+			}
 
-				$js = VIEWPATH.$_view.'.js';
-				$css = VIEWPATH.$_view.'.css';
-
-				// view js
-				if( file_exists( $js ) )
-				{
-					$js = str_replace(VIEWPATH, $asset_path.'/js/', $js).($nocache_uri?'?_='.hash($this->config['asset_hashkey'], $js ):'');
-					$output = str_replace('</body>', "\n\t<script type='text/javascript' src='/{$js}'></script>\n</body>", $output );
-				}
-
-				// view css
-				if( file_exists( $css ) )
-				{
-					$css = str_replace(VIEWPATH, $asset_path.'/css/', $css).($nocache_uri?'?_='.hash($this->config['asset_hashkey'], $css ):'');
-					$output = str_replace('</head>', "\t<link rel='stylesheet' type='text/css' href='/{$css}' />\n</head>", $output );
-				}
+			// view css
+			if( file_exists( $css ) )
+			{
+				$css = str_replace(VIEWPATH, $asset_path.'/css/', $css).($nocache_uri?'?_='.hash($this->config['asset_hashkey'], $css ):'');
+				$output = str_replace('</head>', "\t<link rel='stylesheet' type='text/css' href='/{$css}' />\n</head>", $output );
 			}
 		}
+		return $output;
+	}
+
+	private function view2combineAsset( $output )
+	{
+		$asset_path = $this->config['asset_controller'];
+		$nocache_uri = $this->config['asset_nocache_uri'];
+		$views = $this->CI->load->getView(TRUE);
+
+		$_js = [];
+		$_css = [];
+		foreach( $views AS $v )
+		{
+			$js = $v.'.js';
+			$css = $v.'.css';
+
+			// view js
+			if( file_exists( VIEWPATH.$js ) )
+			{
+				$hash = hash_file($this->config['asset_hashkey'], VIEWPATH.$js);
+				$_js[$hash] = $js;
+			}
+
+			// view css
+			if( file_exists( VIEWPATH.$css ) )
+			{
+				$hash = hash_file($this->config['asset_hashkey'], VIEWPATH.$css);
+				$_css[$hash] = $css;
+			}
+		}
+
+		if( sizeof($_js) )
+		{
+			$content = json_encode($_js);
+			$hash = hash($this->config['asset_hashkey'], $content);
+			if( ! $cache = get_instance()->cache->get($hash) )
+			{
+				if( ! get_instance()->cache->save($hash, $content, $this->config['asset_combine']['ttl']) )
+				{
+					return FALSE;
+				}
+			}
+
+			$output = str_replace('</body>', "\n\t<script type='text/javascript' src='/{$asset_path}/combine/{$hash}.js'></script>\n</body>", $output );
+		}
+
+		if( sizeof($_css) )
+		{
+			$content = json_encode($_css);
+			$hash = hash($this->config['asset_hashkey'], $content);
+			if( ! $cache = get_instance()->cache->get($hash) )
+			{
+				if( get_instance()->cache->save($hash, $content, $this->config['asset_combine']['ttl']) )
+				{
+					return FALSE;
+				}
+			}
+
+			$output = str_replace('</head>', "\t<link rel='stylesheet' type='text/css' href='/{$asset_path}/combine/{$hash}.css' />\n</head>", $output );
+		}
+
 		return $output;
 	}
 
@@ -154,7 +212,14 @@ class Straight_layout Extends CI_Driver
 	{
 		$output = $this->skin( $output );
 		$output = $this->layout( $output );
-		$output = $this->view2asset( $output );
+		
+		if( $this->config['asset_combine']['combine'] 
+			&& get_instance()->load->driver('cache', $this->config['asset_combine']['adapter'] ) )
+		{
+			$output = $this->view2combineAsset( $output );
+		} else {
+			$output = $this->view2asset( $output );
+		}
 
 		return $output;
 	}

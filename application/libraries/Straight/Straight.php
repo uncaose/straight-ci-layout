@@ -8,13 +8,7 @@
  */
 class Straight extends CI_Driver_Library
 {
-	public $config = Array(
-		'asset_controller' => 'asset',
-		'asset_hashkey' => 'md5',
-		'asset_nocache_uri' => FALSE,
-		'view_skin' => '_skin',
-		'view_layout' => '_layout',
-	);
+	public $config = [];
 
 	public $valid_drivers;
 	public $CI;
@@ -31,8 +25,8 @@ class Straight extends CI_Driver_Library
 	public function _init()
 	{
 		// set config
-		$this->CI->config->load( 'straight', FALSE, TRUE ); // get Straight Config
-		$this->config = array_merge( $this->config, $this->CI->config->config['straight'] );
+		$this->CI->config->load( 'straight', TRUE, TRUE ); // get Straight Config
+		$this->config =  $this->CI->config->config['straight'];
 
 		if( ! defined('EXT') ) define('EXT', '.php');	// ci2 EXT redefine
 		if( ! defined('VIEWPATH')  ) define('VIEWPATH', $this->CI->load->_ci_view_path); // ci3 style
