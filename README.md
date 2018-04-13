@@ -19,7 +19,7 @@ Class Welcome extends MY_Controller
         $this->load->layout('straight/_layout')->view('straight/depth/depth');
     }
 }
-</code>
+</pre>
 
 ## Ex View File ##
 <pre>
