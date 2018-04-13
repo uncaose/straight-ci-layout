@@ -60,6 +60,8 @@ class Asset extends CI_Controller
 
 		$this->load->driver('straight');
 		$this->straight->layout->header( $file );
+
+		if( is_array($cache) ) $cache = $cache[0];
 		
 		$cache = @json_decode($cache, TRUE);
 		foreach( $cache AS $hash => $file )
