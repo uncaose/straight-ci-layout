@@ -8,25 +8,12 @@
 - Version 2 will all be higher.
 
 ## Ex Controller ##
-<h2>controllers/Welcome.php</h2>
-<pre><code>
+<pre>
 Class Welcome extends MY_Controller
 {
     public function index() {
         $this->load->view('welcome_message');
     }
-}
-</code></pre>
-
-<h2>controllers/straight/Welcome.php</h2>
-<code>
-class Welcome extends MY_Controller
-{
-    public function index()
-    {
-        $this->load->view('straight/welcome');
-    }
-
     public function depth()
     {
         $this->load->layout('straight/_layout')->view('straight/depth/depth');
@@ -35,8 +22,7 @@ class Welcome extends MY_Controller
 </code>
 
 ## Ex View File ##
-
-<pre><code>
+<pre>
 views/
     _layout.css
     _layout.js
@@ -56,11 +42,11 @@ views/straight/depth
             _skin.php
             _skin.css
             depth.php
-</code></pre>
+</pre>
 
 ## Ex Output ##
 
-<pre><code>
+<pre>
 &lt;html>
 &lt;head>
     ...
@@ -81,47 +67,4 @@ views/straight/depth
     &lt;script type='text/javascript' src='/asset/js/welcome_message.js'>&lt;/script>
 &lt;/body>
 &lt;/html>
-</code></pre>
-
-## Ex layout, skin ##
-<pre><code>
-views/
-    _layout.php
-    _skin.php
-views/straight/
-        _layout.php
-        _skin.php
-        welcome.php
-
-load : straight/welcome.php
-load : straight/_skin.php
-load : straight/_layout.php
-</code></pre>
-
-<pre><code>
-views/
-    _layout.php
-    _skin.php
-views/straight/
-        welcome.php
-
-load : straight/welcome.php
-load : _skin.php
-load : _layout.php
-</code></pre>
-
-<pre><code>
-views/
-    _layout.php
-    _skin.php
-views/straight/
-        _layout_another.php
-        _layout.php
-        _skin.php
-        welcome.php
-            &lt;?php $this->load->skin('_skin')->set('straight/_layout_another'); ?&gt;
-
-load : straight/welcome.php
-load : _skin.php
-load : straight/_layout_another.php
-</code></pre>
+</pre>
