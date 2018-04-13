@@ -188,7 +188,7 @@ class Straight_layout Extends CI_Driver
 			$hash = hash($this->config['asset_hashkey'], $content);
 			if( ! $cache = get_instance()->cache->get($hash) )
 			{
-				get_instance()->cache->save($hash, $content, $this->config['asset_combine']['ttl']);
+				get_instance()->cache->save($hash, $content, $this->config['ttl']);
 			}
 
 			$output = str_replace('</body>', "\n\t<script type='text/javascript' src='/{$asset_path}/combine/{$hash}.js'></script>\n</body>", $output );
@@ -200,7 +200,7 @@ class Straight_layout Extends CI_Driver
 			$hash = hash($this->config['asset_hashkey'], $content);
 			if( ! $cache = get_instance()->cache->get($hash) )
 			{
-				get_instance()->cache->save($hash, $content, $this->config['asset_combine']['ttl']);
+				get_instance()->cache->save($hash, $content, $this->config['ttl']);
 			}
 
 			$output = str_replace('</head>', "\t<link rel='stylesheet' type='text/css' href='/{$asset_path}/combine/{$hash}.css' />\n</head>", $output );
@@ -214,21 +214,55 @@ class Straight_layout Extends CI_Driver
 		$output = $this->skin( $output );
 		$output = $this->layout( $output );
 
-		$isCache = get_instance()->load->driver('cache', $this->config['asset_combine']['adapter'] );
+		$isCache = get_instance()->load->driver('cache', $this->config['adapter'] );
 		if( CI_VERSION < '3.0.0' )
 		{
-			$isCache = get_instance()->cache->{$this->config['asset_combine']['adapter']['adapter']}->is_supported()
-					|| get_instance()->cache->{$this->config['asset_combine']['adapter']['backup']}->is_supported();
+			$isCache = get_instance()->cache->{$this->config['adapter']['adapter']}->is_supported()
+					|| get_instance()->cache->{$this->config['adapter']['backup']}->is_supported();
 		}
 
-		if( $this->config['asset_combine']['combine'] && $isCache )
+		if( $this->config['asset_combine'] && $isCache )
 		{
 			$output = $this->view2combineAsset( $output );
 		} else {
 			$output = $this->view2asset( $output );
 		}
 
+		if( $this->config['view_minify'] === TRUE )
+		{
+			$hash = hash($this->config['asset_hashkey'], $output );
+			if( ! $cache = get_instance()->cache->get($hash) )
+			{
+				$cache = $this->sanitize_output( $output );
+				get_instance()->cache->save($hash, $cache, $this->config['ttl']);
+				log_message('info', __FUNCTION__.':'.__LINE__.' view_minify cache hash : '.$hash);
+			}
+			return $cache;
+		}
 		return $output;
+	}
+
+	// https://stackoverflow.com/questions/27878158/php-bufffer-output-minify-not-textarea-pre
+	private function sanitize_output($buffer)
+	{
+		// Searching textarea and pre
+		preg_match_all('#\<textarea.*\>.*\<\/textarea\>#Uis', $buffer, $foundTxt);
+		preg_match_all('#\<pre.*\>.*\<\/pre\>#Uis', $buffer, $foundPre);
+		preg_match_all('#\<script.*\>.*\<\/script\>#Uis', $buffer, $foundScript);
+	
+		// replacing both with <textarea>$index</textarea> / <pre>$index</pre>
+		$buffer = str_replace($foundTxt[0], array_map(function($el){ return '<textarea>'.$el.'</textarea>'; }, array_keys($foundTxt[0])), $buffer);
+		$buffer = str_replace($foundPre[0], array_map(function($el){ return '<pre>'.$el.'</pre>'; }, array_keys($foundPre[0])), $buffer);
+		$buffer = str_replace($foundPre[0], array_map(function($el){ return '<script>'.$el.'</script>'; }, array_keys($foundScript[0])), $buffer);
+	
+		$buffer = preg_replace([ '/\>[^\S ]+/s', '/[^\S ]+\</s', '/(\s)+/s', '/<!--(.|\s)*?-->/' ],[ '>', '<', '\\1', '' ], $buffer);
+	
+		// Replacing back with content
+		$buffer = str_replace(array_map(function($el){ return '<textarea>'.$el.'</textarea>'; }, array_keys($foundTxt[0])), $foundTxt[0], $buffer);
+		$buffer = str_replace(array_map(function($el){ return '<pre>'.$el.'</pre>'; }, array_keys($foundPre[0])), $foundPre[0], $buffer);
+		$buffer = str_replace(array_map(function($el){ return '<script>'.$el.'</script>'; }, array_keys($foundScript[0])), $foundScript[0], $buffer);
+	
+		return $buffer;
 	}
 }
 
