@@ -4,21 +4,22 @@
 ## Apply CI version ##
 - Codeigniter 2.2.6
 - Codeigniter 3.1.7
+- Codeigniter 3.1.8
 - Version 2 will all be higher.
 
 ## Ex Controller ##
 <h2>controllers/Welcome.php</h2>
-<pre>
+<pre><code>
 Class Welcome extends MY_Controller
 {
     public function index() {
         $this->load->view('welcome_message');
     }
 }
-</pre>
+</code></pre>
 
 <h2>controllers/straight/Welcome.php</h2>
-<pre>
+<code>
 class Welcome extends MY_Controller
 {
     public function index()
@@ -31,11 +32,11 @@ class Welcome extends MY_Controller
         $this->load->layout('straight/_layout')->view('straight/depth/depth');
     }
 }
-</pre>
+</code>
 
 ## Ex View File ##
 
-<pre>
+<pre><code>
 views/
     _layout.css
     _layout.js
@@ -55,12 +56,11 @@ views/straight/depth
             _skin.php
             _skin.css
             depth.php
-
-</pre>
+</code></pre>
 
 ## Ex Output ##
 
-<pre>
+<pre><code>
 &lt;html>
 &lt;head>
     ...
@@ -81,10 +81,10 @@ views/straight/depth
     &lt;script type='text/javascript' src='/asset/js/welcome_message.js'>&lt;/script>
 &lt;/body>
 &lt;/html>
-</pre>
+</code></pre>
 
 ## Ex layout, skin ##
-<pre>
+<pre><code>
 views/
     _layout.php
     _skin.php
@@ -96,9 +96,9 @@ views/straight/
 load : straight/welcome.php
 load : straight/_skin.php
 load : straight/_layout.php
-</pre>
+</code></pre>
 
-<pre>
+<pre><code>
 views/
     _layout.php
     _skin.php
@@ -108,9 +108,9 @@ views/straight/
 load : straight/welcome.php
 load : _skin.php
 load : _layout.php
-</pre>
+</code></pre>
 
-<pre>
+<pre><code>
 views/
     _layout.php
     _skin.php
@@ -124,4 +124,4 @@ views/straight/
 load : straight/welcome.php
 load : _skin.php
 load : straight/_layout_another.php
-</pre>
+</code></pre>
