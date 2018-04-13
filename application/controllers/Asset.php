@@ -48,12 +48,12 @@ class Asset extends CI_Controller
 	public function combine( $file = '' )
 	{
 		$config = $this->config->item('straight');
-
+		
 		$key = substr($file, 0, strrpos($file, '.'));
 		if( empty($key) 
-			|| ! $config['asset_combine']['combine']
-			|| ! $this->load->driver('cache', $config['asset_combine']['adapter'] )
-			|| ! $cache = $this->cache->get($key) )
+		|| ! $config['asset_combine']['combine']
+		|| ! $this->load->driver('cache', $config['asset_combine']['adapter'] )
+		|| ! $cache = $this->cache->get($key) )
 		{
 			show_404();
 		}
@@ -61,7 +61,7 @@ class Asset extends CI_Controller
 		$this->load->driver('straight');
 		$this->straight->layout->header( $file );
 		
-		$cache = json_decode($cache, TRUE);
+		$cache = @json_decode($cache, TRUE);
 		foreach( $cache AS $hash => $file )
 		{
 			$file = VIEWPATH.$file;
