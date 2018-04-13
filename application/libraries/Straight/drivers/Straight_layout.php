@@ -188,10 +188,7 @@ class Straight_layout Extends CI_Driver
 			$hash = hash($this->config['asset_hashkey'], $content);
 			if( ! $cache = get_instance()->cache->get($hash) )
 			{
-				if( ! get_instance()->cache->save($hash, $content, $this->config['asset_combine']['ttl']) )
-				{
-					return FALSE;
-				}
+				get_instance()->cache->save($hash, $content, $this->config['asset_combine']['ttl']);
 			}
 
 			$output = str_replace('</body>', "\n\t<script type='text/javascript' src='/{$asset_path}/combine/{$hash}.js'></script>\n</body>", $output );
@@ -203,10 +200,7 @@ class Straight_layout Extends CI_Driver
 			$hash = hash($this->config['asset_hashkey'], $content);
 			if( ! $cache = get_instance()->cache->get($hash) )
 			{
-				if( get_instance()->cache->save($hash, $content, $this->config['asset_combine']['ttl']) )
-				{
-					return FALSE;
-				}
+				get_instance()->cache->save($hash, $content, $this->config['asset_combine']['ttl']);
 			}
 
 			$output = str_replace('</head>', "\t<link rel='stylesheet' type='text/css' href='/{$asset_path}/combine/{$hash}.css' />\n</head>", $output );
@@ -219,9 +213,15 @@ class Straight_layout Extends CI_Driver
 	{
 		$output = $this->skin( $output );
 		$output = $this->layout( $output );
-		
-		if( $this->config['asset_combine']['combine'] 
-			&& get_instance()->load->driver('cache', $this->config['asset_combine']['adapter'] ) )
+
+		$isCache = get_instance()->load->driver('cache', $this->config['asset_combine']['adapter'] );
+		if( CI_VERSION < '3.0.0' )
+		{
+			$isCache = get_instance()->cache->{$this->config['asset_combine']['adapter']['adapter']}->is_supported()
+					|| get_instance()->cache->{$this->config['asset_combine']['adapter']['backup']}->is_supported();
+		}
+
+		if( $this->config['asset_combine']['combine'] && $isCache )
 		{
 			$output = $this->view2combineAsset( $output );
 		} else {
