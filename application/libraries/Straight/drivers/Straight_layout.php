@@ -8,6 +8,8 @@
  */
 class Straight_layout Extends CI_Driver
 {
+	public $_js_cnt = 0;
+	
 	public function header( $file = '' )
 	{
 		$ext = pathinfo( $file, PATHINFO_EXTENSION );
@@ -142,6 +144,7 @@ class Straight_layout Extends CI_Driver
 			{
 				$js = str_replace(VIEWPATH, $asset_path.'/js/', $js).($nocache_uri?'?_='.hash($this->config['asset_hashkey'], $js ):'');
 				$output = str_replace('</body>', "\n\t<script type='text/javascript' src='/{$js}'></script>\n</body>", $output );
+				$this->_js_cnt++;
 			}
 
 			// view css
@@ -192,6 +195,7 @@ class Straight_layout Extends CI_Driver
 			}
 
 			$output = str_replace('</body>', "\n\t<script type='text/javascript' src='/{$asset_path}/combine/{$hash}.js'></script>\n</body>", $output );
+			$this->_js_cnt = sizeof($_js);
 		}
 
 		if( sizeof($_css) )
@@ -246,22 +250,19 @@ class Straight_layout Extends CI_Driver
 	private function sanitize_output($buffer)
 	{
 		// Searching textarea and pre
-		preg_match_all('#\<textarea.*\>.*\<\/textarea\>#Uis', $buffer, $foundTxt);
-		preg_match_all('#\<pre.*\>.*\<\/pre\>#Uis', $buffer, $foundPre);
-		preg_match_all('#\<script.*\>.*\<\/script\>#Uis', $buffer, $foundScript);
+		$cnt = preg_match_all('#\<(textarea|pre|script).*\>.*\<\/(textarea|pre|script)\>#Uis', $buffer, $found);
 
-		// replacing both with <textarea>$index</textarea> / <pre>$index</pre>
-		$buffer = str_replace($foundTxt[0], array_map(function($el){ return '<textarea>'.$el.'</textarea>'; }, array_keys($foundTxt[0])), $buffer);
-		$buffer = str_replace($foundPre[0], array_map(function($el){ return '<pre>'.$el.'</pre>'; }, array_keys($foundPre[0])), $buffer);
-		$buffer = str_replace($foundScript[0], array_map(function($el){ return '<script>'.$el.'</script>'; }, array_keys($foundScript[0])), $buffer);
-		
-		$buffer = preg_replace([ '/\>[^\S ]+/s', '/[^\S ]+\</s', '/(\s)+/s', '/<!--(.|\s)*?-->/' ],[ '>', '<', '\\1', '' ], $buffer);
-		
-		// Replacing back with content
-		$buffer = str_replace(array_map(function($el){ return '<textarea>'.$el.'</textarea>'; }, array_keys($foundTxt[0])), $foundTxt[0], $buffer);
-		$buffer = str_replace(array_map(function($el){ return '<pre>'.$el.'</pre>'; }, array_keys($foundPre[0])), $foundPre[0], $buffer);
-		$buffer = str_replace(array_map(function($el){ return '<script>'.$el.'</script>'; }, array_keys($foundScript[0])), $foundScript[0], $buffer);
-	
+		if( $cnt && $cnt > $this->_js_cnt )
+		{
+			$buffer = str_replace($found[0], array_map(function($el){ return '<textarea>'.$el.'</textarea>'; }, array_keys($found[0])), $buffer); // replacing both with <textarea>$index</textarea>
+			$buffer = preg_replace([ '/\>[^\S ]+/s', '/[^\S ]+\</s', '/(\s)+/s', '/<!--(.|\s)*?-->/' ],[ '>', '<', '\\1', '' ], $buffer);
+			$buffer = str_replace(array_map(function($el){ return '<textarea>'.$el.'</textarea>'; }, array_keys($found[0])), $found[0], $buffer); // Replacing back with content
+		}
+		else
+		{
+			$buffer = preg_replace([ '/\>[^\S ]+/s', '/[^\S ]+\</s', '/(\s)+/s', '/<!--(.|\s)*?-->/' ],[ '>', '<', '\\1', '' ], $buffer);
+		}
+
 		return $buffer;
 	}
 }
