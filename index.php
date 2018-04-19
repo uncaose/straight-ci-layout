@@ -98,9 +98,9 @@ switch (ENVIRONMENT)
  * Set the path if it is not in the same directory as this file.
  */
 	$system_path = 'system';
-    $system_path = '../CodeIgniter-3.1.8/system';
-    $system_path = '../CodeIgniter-3.1.7/system';
-	$system_path = '../CodeIgniter-2.2.6/system';
+    // $system_path = '../CodeIgniter-3.1.8/system';
+    // $system_path = '../CodeIgniter-3.1.7/system';
+	// $system_path = '../CodeIgniter-2.2.6/system';
 
 /*
  *---------------------------------------------------------------
