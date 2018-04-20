@@ -12,19 +12,17 @@ class Straight_layout Extends CI_Driver
 	
 	public function header( $file = '' )
 	{
-		$ext = pathinfo( $file, PATHINFO_EXTENSION );
-		switch( TRUE )
+		switch( pathinfo( $file, PATHINFO_EXTENSION ) )
 		{
-			case( $ext === 'js' ):
+			case( 'js' ):
 				header('Content-Type: text/javascript');
 				break;
-			case( $ext === 'css' ):
+			case( 'css' ):
 				header('Content-Type: text/css');
 				break;
 			default:
-				header('HTTP/1.0 404 Not Found');
-				exit;
-			break;
+				header('HTTP/1.0 404 Not Found'); exit;
+				break;
 		}
 		$this->webCache( $file );
 	}
