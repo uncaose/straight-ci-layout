@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-$config['modules'] = CI_VERSION>="3.0.0"?array('layout'):array('straight_layout');
+$config['modules'] = CI_VERSION<"3.0.0"?['straight_layout']:['layout'];
 
 $config['asset_controller'] = 'asset';
 $config['asset_hashkey'] = 'md5';
