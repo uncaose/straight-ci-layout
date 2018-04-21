@@ -47,26 +47,26 @@ views/straight/depth
 ## Ex Output ##
 
 ```html
-&lt;html>
-&lt;head>
+<html>
+<head>
     ...
-    &lt;link rel='stylesheet' type='text/css' href='/asset/css/_layout.css' />
-    &lt;link rel='stylesheet' type='text/css' href='/asset/css/_skin.css' />
-    &lt;link rel='stylesheet' type='text/css' href='/asset/css/welcome_message.css' />
-&lt;/head>
-&lt;body>
+    <link rel='stylesheet' type='text/css' href='/asset/css/_layout.css' />
+    <link rel='stylesheet' type='text/css' href='/asset/css/_skin.css' />
+    <link rel='stylesheet' type='text/css' href='/asset/css/welcome_message.css' />
+</head>
+<body>
     
-    &lt;_layout.php>
-        &lt;_skin.php>
+    <_layout.php>
+        <_skin.php>
             ... welcome_message.php contents ...
-        &lt;/_skin.php>
-    &lt;/_layout.php>
+        </_skin.php>
+    </_layout.php>
 
-    &lt;script type='text/javascript' src='/asset/js/_layout.js'>&lt;/script>
-    &lt;script type='text/javascript' src='/asset/js/_skin.js'>&lt;/script>
-    &lt;script type='text/javascript' src='/asset/js/welcome_message.js'>&lt;/script>
-&lt;/body>
-&lt;/html>
+    <script type='text/javascript' src='/asset/js/_layout.js'></script>
+    <script type='text/javascript' src='/asset/js/_skin.js'></script>
+    <script type='text/javascript' src='/asset/js/welcome_message.js'></script>
+</body>
+</html>
 ```
 
 ## Config ##
@@ -91,12 +91,12 @@ $config['view_minify'] = TRUE;
 ## minify, combine Output ##
 
 ```html
-&lt;html lang="en">&lt;head>&lt;meta charset="utf-8">&lt;title>Welcome to CodeIgniter&lt;/title>&lt;link rel='stylesheet' type='text/css' href='/asset/combine/c93667b961c1da6c29ac55d8e6b51e61.css' />&lt;/head>&lt;body> &lt;div id="container"> &lt;h1>Welcome to CodeIgniter!&lt;/h1>&lt;div id="body">&lt;p>The page you are looking at is being generated dynamically by CodeIgniter.&lt;/p>&lt;p>If you would like to edit this page you'll find it located at:&lt;/p>&lt;code> application/views/welcome_message.css&lt;br/> application/views/welcome_message.js&lt;br/> application/views/welcome_message.php &lt;/code>&lt;p>The corresponding controller for this page is found at:&lt;/p>&lt;code>application/controllers/Welcome.php&lt;/code>&lt;p>If you are exploring CodeIgniter for the very first time, you should start by reading the &lt;a href="user_guide/">User Guide&lt;/a>.&lt;/p>&lt;p>CI_VERSION : 3.1.8 / ENVIRONMENT : development&lt;/p>&lt;p>&lt;a href="https://github.com/uncaose/straight-ci-layout" target="_blank">https://github.com/uncaose/straight-ci-layout&lt;/a>&lt;/p>&lt;ul>&lt;li>&lt;a href="/straight/welcome">/straight/welcome&lt;/a>&lt;/li>&lt;li>&lt;a href="/straight/welcome/depth">/straight/welcome/depth&lt;/a>&lt;/li>&lt;/ul>&lt;/div>&lt;p class="footer">Page rendered in &lt;strong>0.0206&lt;/strong> seconds. CodeIgniter Version &lt;strong>3.1.8&lt;/strong>&lt;/p>&lt;/div>&lt;pre style="white-space: pre-wrap;">
+<html lang="en"><head><meta charset="utf-8"><title>Welcome to CodeIgniter</title><link rel='stylesheet' type='text/css' href='/asset/combine/c93667b961c1da6c29ac55d8e6b51e61.css' /></head><body> <div id="container"> <h1>Welcome to CodeIgniter!</h1><div id="body"><p>The page you are looking at is being generated dynamically by CodeIgniter.</p><p>If you would like to edit this page you'll find it located at:</p><code> application/views/welcome_message.css<br/> application/views/welcome_message.js<br/> application/views/welcome_message.php </code><p>The corresponding controller for this page is found at:</p><code>application/controllers/Welcome.php</code><p>If you are exploring CodeIgniter for the very first time, you should start by reading the <a href="user_guide/">User Guide</a>.</p><p>CI_VERSION : 3.1.8 / ENVIRONMENT : development</p><p><a href="https://github.com/uncaose/straight-ci-layout" target="_blank">https://github.com/uncaose/straight-ci-layout</a></p><ul><li><a href="/straight/welcome">/straight/welcome</a></li><li><a href="/straight/welcome/depth">/straight/welcome/depth</a></li></ul></div><p class="footer">Page rendered in <strong>0.0206</strong> seconds. CodeIgniter Version <strong>3.1.8</strong></p></div><pre style="white-space: pre-wrap;">
 Straight-layout
-&lt;/pre>&lt;textarea name="desc">
+</pre><textarea name="desc">
 Straight-layout
-&lt;/textarea>&lt;script type="text/javascript>
+</textarea><script type="text/javascript>
 // Straight-layout
 console.log( 'Straight-layout' );
-&lt;/script>&lt;script type='text/javascript' src='/asset/combine/8a982f02f422b7e90425eaf2b4a5a852.js'>&lt;/script>&lt;/body>&lt;/html>
+</script><script type='text/javascript' src='/asset/combine/8a982f02f422b7e90425eaf2b4a5a852.js'></script></body></html>
 ```
