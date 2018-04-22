@@ -95,7 +95,7 @@ $config['view_minify'] = TRUE;
 Straight-layout
 </pre><textarea name="desc">
 Straight-layout
-</textarea><script type="text/javascript>
+</textarea><script type="text/javascript">
 // Straight-layout
 console.log( 'Straight-layout' );
 </script><script type='text/javascript' src='/asset/combine/8a982f02f422b7e90425eaf2b4a5a852.js'></script></body></html>
