@@ -80,7 +80,7 @@ $config['asset_combine'] = TRUE;    // combine : welcome_message.js(css), _skin.
 $config['asset_minify_js'] = TRUE;  // require composer minify lib
 $config['asset_minify_css'] = TRUE; // require composer minify lib
 
-$config['adapter'] = ['adapter' => 'apc', 'backup' => 'file'];  // CI cache lib
+$config['adapter'] = ['adapter' => 'dummy', 'backup' => 'file'];  // CI cache lib, default dummy
 $config['ttl'] = 2592000;	// 30 day
 
 $config['view_skin'] = '_skin';
