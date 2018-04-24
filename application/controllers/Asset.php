@@ -12,11 +12,15 @@ class Asset extends CI_Controller
 	public $isCache = FALSE;
 
 	public function __construct() {
-		parent::__construct();
+        parent::__construct();
 		$this->config->load('straight', TRUE, FALSE);
 		$this->load->driver('straight');
-		$this->config = $this->config->item('straight');
-		$this->isCache = $this->load->driver('cache', $this->config['adapter'] );
+        $this->config = $this->config->item('straight');
+        $this->load->driver('cache', $this->config['adapter']);
+
+        $this->isCache = $this->cache->{$this->config['adapter']['adapter']}->is_supported()
+				|| $this->cache->{$this->config['adapter']['backup']}->is_supported();
+
 	}
 
 	public function js()
@@ -37,31 +41,41 @@ class Asset extends CI_Controller
 
 	public function combine( $file = '' )
 	{
-		$key = substr($file, 0, strrpos($file, '.'));
-		if( empty($key) 
-		|| ! $this->config['asset_combine']
-		|| ! $this->isCache
-		|| ! $cache = $this->cache->get($key) )
+        $l = $this->input->get('l');    // query list
+        $key = substr($file, 0, strrpos($file, '.'));
+        $ext = pathinfo( $file, PATHINFO_EXTENSION );
+
+		if( empty($key) )
 		{
 			show_404();
-		}
+        }
 
 		$this->straight->layout->header( $file );
 
-		if( is_array($cache) ) $cache = $cache[0];
-
-		$ext = pathinfo( $file, PATHINFO_EXTENSION );
-		if( $content = $this->cache->get( $file ) )
+		if( $this->isCache && $content = $this->cache->get( $file ) ) // 캐시
 		{
+            var_dump( strlen($content) );
 			if( isset($content['minify']) && $content['minify'] == $this->config['asset_minify_'.$ext] )
 			{
 				echo $content['body'];
 				exit;
-			}
-		}
+            }
+        }
+        else if( $this->isCache && $cache = $this->cache->get($key) )
+        {
+            if( is_array($cache) ) $cache = $cache[0];
+            $cache = @json_decode($cache, TRUE);
+        }
+        else if( strlen($l) ) 
+        {
+            $cache = explode(',', urldecode($l) );
+            if( ! sizeof($cache) )
+            {
+                show_404();
+            }
+        }
 
 		$content = '';
-		$cache = @json_decode($cache, TRUE);
 		foreach( $cache AS $h => $f )
 		{
 			$f = VIEWPATH.$f;
@@ -78,7 +92,10 @@ class Asset extends CI_Controller
 			}
 		}
 
-		$this->cache->save($file, ['minify'=>$this->config['asset_minify_'.$ext], 'body'=>$content], $this->config['ttl'] );
+        if( $this->isCache )
+        {
+            $this->cache->save($file, ['minify'=>$this->config['asset_minify_'.$ext], 'body'=>$content], $this->config['ttl'] );
+        }
 		echo $content;
 	}
 
