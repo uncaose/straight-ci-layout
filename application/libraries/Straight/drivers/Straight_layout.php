@@ -8,9 +8,8 @@
  */
 class Straight_layout Extends CI_Driver
 {
-    public $isCache = FALSE;
-	public $_js_cnt = 0;
-	
+    public $_js_cnt = 0;
+    
 	public function header( $file = '' )
 	{
 		switch( pathinfo( $file, PATHINFO_EXTENSION ) )
@@ -184,51 +183,29 @@ class Straight_layout Extends CI_Driver
 			}
 		}
 
-        
-        if( $this->isCache && $this->config['asset_combine'] != 'query' )
+        if( sizeof($_js) )
         {
-            if( sizeof($_js) )
+            $content = json_encode($_js);
+            $hash = hash($this->config['asset_hashkey'], $content);
+            if( ! $cache = get_instance()->cache->get($hash) )
             {
-                $content = json_encode($_js);
-                $hash = hash($this->config['asset_hashkey'], $content);
-                if( ! $cache = get_instance()->cache->get($hash) )
-                {
-                    get_instance()->cache->save($hash, $content, $this->config['ttl']);
-                }
-    
-                $output = str_replace('</body>', "\n\t<script type='text/javascript' src='/{$asset_path}/combine/{$hash}.js'></script>\n</body>", $output );
-                $this->_js_cnt = sizeof($_js);
+                get_instance()->cache->save($hash, $content, $this->config['ttl']);
             }
-    
-            if( sizeof($_css) )
-            {
-                $content = json_encode($_css);
-                $hash = hash($this->config['asset_hashkey'], $content);
-                if( ! $cache = get_instance()->cache->get($hash) )
-                {
-                    get_instance()->cache->save($hash, $content, $this->config['ttl']);
-                }
-    
-                $output = str_replace('</head>', "\t<link rel='stylesheet' type='text/css' href='/{$asset_path}/combine/{$hash}.css' />\n</head>", $output );
-            }
+
+            $output = str_replace('</body>', "\n\t<script type='text/javascript' src='/{$asset_path}/combine/{$hash}.js?l=".urlencode(join(',', $_js))."'></script>\n</body>", $output );
+            $this->_js_cnt = sizeof($_js);
         }
-        else
+
+        if( sizeof($_css) )
         {
-            if( sizeof($_js) )
+            $content = json_encode($_css);
+            $hash = hash($this->config['asset_hashkey'], $content);
+            if( ! $cache = get_instance()->cache->get($hash) )
             {
-                $content = json_encode($_js);
-                $hash = hash($this->config['asset_hashkey'], $content);
-
-                $output = str_replace('</body>', "\n\t<script type='text/javascript' src='/{$asset_path}/combine/{$hash}.js?l=".urlencode(join(',', $_js))."'></script>\n</body>", $output );
-                $this->_js_cnt = sizeof($_js);
+                get_instance()->cache->save($hash, $content, $this->config['ttl']);
             }
 
-            if( sizeof($_css) )
-            {
-                $content = json_encode($_css);
-                $hash = hash($this->config['asset_hashkey'], $content);
-                $output = str_replace('</head>', "\t<link rel='stylesheet' type='text/css' href='/{$asset_path}/combine/{$hash}.css?l=".urlencode(join(',', $_css))."' />\n</head>", $output );
-            }
+            $output = str_replace('</head>', "\t<link rel='stylesheet' type='text/css' href='/{$asset_path}/combine/{$hash}.css?l=".urlencode(join(',', $_css))."' />\n</head>", $output );
         }
 
 		return $output;
@@ -238,14 +215,6 @@ class Straight_layout Extends CI_Driver
 	{
 		$output = $this->skin( $output );
 		$output = $this->layout( $output );
-
-
-        $this->isCache = get_instance()->load->driver('cache', $this->config['adapter'] );
-		if( CI_VERSION < '3.0.0' )
-		{
-			$this->isCache = get_instance()->cache->{$this->config['adapter']['adapter']}->is_supported()
-					|| get_instance()->cache->{$this->config['adapter']['backup']}->is_supported();
-		}
 
 		if( $this->config['asset_combine'] )
 		{

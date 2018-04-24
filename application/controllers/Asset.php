@@ -9,7 +9,6 @@ use MatthiasMullie\Minify;
 class Asset extends CI_Controller
 {
 	public $config = [];
-	public $isCache = FALSE;
 
 	public function __construct() {
         parent::__construct();
@@ -17,10 +16,6 @@ class Asset extends CI_Controller
 		$this->load->driver('straight');
         $this->config = $this->config->item('straight');
         $this->load->driver('cache', $this->config['adapter']);
-
-        $this->isCache = $this->cache->{$this->config['adapter']['adapter']}->is_supported()
-				|| $this->cache->{$this->config['adapter']['backup']}->is_supported();
-
 	}
 
 	public function js()
@@ -52,7 +47,7 @@ class Asset extends CI_Controller
 
 		$this->straight->layout->header( $file );
 
-		if( $this->isCache && $content = $this->cache->get( $file ) ) // 캐시
+		if( $content = $this->cache->get( $file ) ) // 캐시
 		{
             var_dump( strlen($content) );
 			if( isset($content['minify']) && $content['minify'] == $this->config['asset_minify_'.$ext] )
@@ -61,7 +56,7 @@ class Asset extends CI_Controller
 				exit;
             }
         }
-        else if( $this->isCache && $cache = $this->cache->get($key) )
+        else if( $cache = $this->cache->get($key) )
         {
             if( is_array($cache) ) $cache = $cache[0];
             $cache = @json_decode($cache, TRUE);
@@ -73,6 +68,10 @@ class Asset extends CI_Controller
             {
                 show_404();
             }
+        }
+        else
+        {
+            show_404();
         }
 
 		$content = '';
@@ -92,10 +91,7 @@ class Asset extends CI_Controller
 			}
 		}
 
-        if( $this->isCache )
-        {
-            $this->cache->save($file, ['minify'=>$this->config['asset_minify_'.$ext], 'body'=>$content], $this->config['ttl'] );
-        }
+        $this->cache->save($file, ['minify'=>$this->config['asset_minify_'.$ext], 'body'=>$content], $this->config['ttl'] );
 		echo $content;
 	}
 

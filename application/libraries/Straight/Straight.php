@@ -11,8 +11,8 @@ class Straight extends CI_Driver_Library
 	public $config = [];
 
 	public $valid_drivers;
-	public $CI;
-
+    public $CI;
+    
 	public function __construct()
 	{
 		$this->CI =& get_instance();
@@ -26,6 +26,7 @@ class Straight extends CI_Driver_Library
 	public function _init()
 	{
 		if( ! defined('EXT') ) define('EXT', '.php');	// ci2 EXT redefine
-		if( ! defined('VIEWPATH')  ) define('VIEWPATH', $this->CI->load->_ci_view_path); // ci3 style
+        if( ! defined('VIEWPATH')  ) define('VIEWPATH', $this->CI->load->_ci_view_path); // ci3 style
+        get_instance()->load->driver('cache', $this->config['adapter'] );
 	}
 }

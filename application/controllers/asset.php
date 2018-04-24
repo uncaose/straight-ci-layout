@@ -101,7 +101,8 @@ class Asset extends CI_Controller
         {
             $this->cache->save($file, ['minify'=>$this->config['asset_minify_'.$ext], 'body'=>$content], $this->config['ttl'] );
         }
-		echo $content;
+        echo $content;
+        exit;
 	}
 
 	private function _js( $file = '' )
