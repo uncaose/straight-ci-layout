@@ -100,7 +100,7 @@ switch (ENVIRONMENT)
 	$system_path = 'system';
     $system_path = '../CodeIgniter-3.1.8/system';
     // $system_path = '../CodeIgniter-3.1.7/system';
-	// $system_path = '../CodeIgniter-2.2.6/system';
+	$system_path = '../CodeIgniter-2.2.6/system';
 
 /*
  *---------------------------------------------------------------
