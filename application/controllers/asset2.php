@@ -6,7 +6,7 @@ use MatthiasMullie\Minify;
  * @author	: uncaose@gmail.com
  * @url 	: https://github.com/uncaose/straight-ci-layout
  */
-class Asset extends CI_Controller
+class Asset2 extends CI_Controller
 {
 	public $cofnig = [];
 	public $isCache = FALSE;
