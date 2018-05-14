@@ -8,7 +8,9 @@ class MY_Loader extends CI_Loader
 	public $_ci_view_path = '';     // ci3
 	public $_views = Array();	// view lists
 	public $_skin = '_skin';	// skin
-	public $_layout = '_layout';	// layout
+    public $_layout = '_layout';	// layout
+    public $_css = [];  // css list
+    public $_js = [];   // js list
 	
 	public function __construct() {
 		parent::__construct();
@@ -55,7 +57,7 @@ class MY_Loader extends CI_Loader
 	
 	public function getView( $unique=FALSE ) {
 		if( $unique === TRUE ) {
-			return array_unique( $this->_views );
+			return array_unique( $this->_views, SORT_STRING );
 		}
 		return $this->_views;
 	}
@@ -78,6 +80,49 @@ class MY_Loader extends CI_Loader
 		return $this->_layout;
 	}
 
+    public function css( $href = NULL )
+    {
+        if( ! is_array($href) )
+        {
+            if( empty($href) ) return $this;
+            $href = [$href];
+        }
+
+        $this->_css = array_merge( $this->_css, $href );
+
+        return $this;
+    }
+
+    public function getCss( $unique = TRUE )
+    {
+        if( $unique === TRUE ) {
+			return array_unique( $this->_css, SORT_REGULAR );
+        }
+
+        return $this->_css;
+    }
+
+    public function js( $src = NULL )
+    {
+        if( ! is_array($src) )
+        {
+            if( empty($src) ) return $this;
+            $src = [$src];
+        }
+
+        $this->_js = array_merge( $this->_js, $src );
+
+        return $this;
+    }
+
+    public function getJs( $unique = TRUE )
+    {
+        if( $unique === TRUE ) {
+			return array_unique( $this->_js, SORT_REGULAR );
+        }
+        
+        return $this->_js;
+    }
 }
 
 /**

@@ -8,8 +8,6 @@
  */
 class Straight_layout Extends CI_Driver
 {
-    public $_js_cnt = 0;
-    
 	public function header( $file = '' )
 	{
 		switch( pathinfo( $file, PATHINFO_EXTENSION ) )
@@ -141,15 +139,14 @@ class Straight_layout Extends CI_Driver
 			if( file_exists( $js ) )
 			{
 				$js = str_replace(VIEWPATH, $asset_path.'/js/', $js).($nocache_uri?'?_='.hash($this->config['asset_hashkey'], $js ):'');
-				$output = str_replace('</body>', "\n\t<script type='text/javascript' src='/{$js}'></script>\n</body>", $output );
-				$this->_js_cnt++;
+                get_instance()->load->js("/{$js}");
 			}
 
 			// view css
 			if( file_exists( $css ) )
 			{
 				$css = str_replace(VIEWPATH, $asset_path.'/css/', $css).($nocache_uri?'?_='.hash($this->config['asset_hashkey'], $css ):'');
-				$output = str_replace('</head>', "\t<link rel='stylesheet' type='text/css' href='/{$css}' />\n</head>", $output );
+                get_instance()->load->css("/{$css}");
 			}
 		}
 		return $output;
@@ -192,8 +189,7 @@ class Straight_layout Extends CI_Driver
                 get_instance()->cache->save($hash, $content, $this->config['ttl']);
             }
 
-            $output = str_replace('</body>', "\n\t<script type='text/javascript' src='/{$asset_path}/combine/{$hash}.js?l=".urlencode(join(',', $_js))."'></script>\n</body>", $output );
-            $this->_js_cnt = sizeof($_js);
+            get_instance()->load->js("/{$asset_path}/combine/{$hash}.js?l=".urlencode(join(',', $_js)));
         }
 
         if( sizeof($_css) )
@@ -205,25 +201,63 @@ class Straight_layout Extends CI_Driver
                 get_instance()->cache->save($hash, $content, $this->config['ttl']);
             }
 
-            $output = str_replace('</head>', "\t<link rel='stylesheet' type='text/css' href='/{$asset_path}/combine/{$hash}.css?l=".urlencode(join(',', $_css))."' />\n</head>", $output );
+            get_instance()->load->css("/{$asset_path}/combine/{$hash}.css?l=".urlencode(join(',', $_css)));
         }
 
 		return $output;
-	}
+    }
+    
+    public function css( $output = '' )
+    {
+		$_css = get_instance()->load->getCss();
 
-	public function output( $output='' )
-	{
-		$output = $this->skin( $output );
-		$output = $this->layout( $output );
-
-		if( $this->config['asset_combine'] )
+		foreach( $_css AS $key => $href )
 		{
-            $output = $this->view2combineAsset( $output );
+            if( is_array($href) )
+            {
+                $href = isset($href[0])?
+                        "href='{$href[0]}'":
+                        join(' ', array_map(function($key, $val){ return " {$key}='{$val}'";    }, array_keys($href), array_values($href)));
+            }
+            else
+            {
+                $href = "href='{$href}'";
+            }
+
+            $_css[$key] = "\n\t<link rel='stylesheet' type='text/css' {$href} />\n</head>";
         }
-        else
-        {
-			$output = $this->view2asset( $output );
-		}
+        return str_replace('</head>', join("\n\t", $_css)."\n</head>", $output);
+    }
+
+    public function js( $output = '' )
+    {
+        $_js = get_instance()->load->getJs();
+
+		foreach( $_js AS $key => $src )
+		{
+            if( is_array($src) )
+            {
+                $src = isset($src[0])?
+                    "src='{$src[0]}'":
+                    join(' ', array_map(function($key, $val){ return " {$key}='{$val}'";    }, array_keys($src), array_values($src)));
+            }
+            else
+            {
+                $src = "src='{$src}'";
+            }
+
+            $_js[$key] = "<script type='text/javascript' {$src}></script>\n</body>";
+        }
+        return str_replace('</body>', join("\n\t", $_js)."\n</body>", $output);
+    }
+
+	public function output( $output = '' )
+	{
+        $output = $this->skin( $output );
+		$output = $this->layout( $output );
+        $output = $this->config['asset_combine']?$this->view2combineAsset( $output ):$this->view2asset( $output );
+        $output = $this->css( $output );
+        $output = $this->js( $output );
 
 		if( $this->config['view_minify'] === TRUE )
 		{
@@ -245,7 +279,7 @@ class Straight_layout Extends CI_Driver
 		// Searching textarea and pre
 		$cnt = preg_match_all('#\<(textarea|pre|script).*\>.*\<\/(textarea|pre|script)\>#Uis', $buffer, $found);
 
-		if( $cnt && $cnt > $this->_js_cnt )
+		if( $cnt && $cnt > sizeof(get_instance()->load->_js) )
 		{
 			$buffer = str_replace($found[0], array_map(function($el){ return '<textarea>'.$el.'</textarea>'; }, array_keys($found[0])), $buffer); // replacing both with <textarea>$index</textarea>
 			$buffer = preg_replace([ '/\>[^\S ]+/s', '/[^\S ]+\</s', '/(\s)+/s', '/<!--(.|\s)*?-->/' ],[ '>', '<', '\\1', '' ], $buffer);
