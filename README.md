@@ -12,11 +12,19 @@
 Class Welcome extends MY_Controller
 {
     public function index() {
-        $this->load->view('welcome_message');
+        $this->load->css('https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css')
+                ->js([
+                    ['src'=>'https://code.jquery.com/jquery-3.2.1.slim.min.js', 'integrity'=>'sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN','crossorigin'=>'anonymous'],
+                    'https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js',
+                ])->js([
+                    'https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js'
+                ])->view('welcome_message');
     }
+
+    // Ex
     public function depth()
     {
-        $this->load->layout('straight/_layout')->view('straight/depth/depth');
+        $this->load->layout('straight/_layout_another')->view('straight/depth/depth');
     }
 }
 ```
@@ -71,8 +79,7 @@ views/straight/depth
 
 ## Config ##
 ```php
-$config['modules'] = CI_VERSION<"3.0.0"?['straight_layout']:['layout'];
-
+$config['modules'] = ['layout'];
 $config['asset_controller'] = 'asset';
 $config['asset_hashkey'] = 'md5';
 $config['asset_nocache_uri'] = TRUE;   // TRUE : /asset/css/style.css?_=abc...1234, FALSE : /asset/cas/style.css
@@ -86,6 +93,12 @@ $config['ttl'] = 2592000;	// 30 day
 $config['view_skin'] = '_skin';
 $config['view_layout'] = '_layout';
 $config['view_minify'] = TRUE;
+
+if( CI_VERSION<"3.0.0" )
+{
+    $config['modules'] = ['straight_layout'];
+    $config['asset_controller'] = 'asset2'; // window...
+}
 ```
 
 ## minify, combine Output ##
