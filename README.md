@@ -12,6 +12,7 @@
 Class Welcome extends MY_Controller
 {
     public function index() {
+        $this->load->view('welcome_head');
         $this->load->css('https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css')
                 ->js([
                     ['src'=>'https://code.jquery.com/jquery-3.2.1.slim.min.js', 'integrity'=>'sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN','crossorigin'=>'anonymous'],
@@ -19,6 +20,7 @@ Class Welcome extends MY_Controller
                 ])->js([
                     'src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js" crossorigin="anonymous"'
                 ])->view('welcome_message');
+        $this->load->view('welcome_foot');
     }
 
     // Ex
@@ -38,6 +40,10 @@ views/
     _skin.css
     _skin.js
     _skin.php                  // default skin auto wrap
+    welcome_foot.js
+    welcome_foot.php
+    welcome_head.css
+    welcome_head.php
     welcome_message.css        // isset {view}.css auto asset
     welcome_message.js         // isset {view}.js auto asset
     welcome_message.php
