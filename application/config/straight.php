@@ -14,7 +14,7 @@ $config['ttl'] = 2592000;	// 30 day
 
 $config['view_skin'] = '_skin';
 $config['view_layout'] = '_layout';
-$config['view_minify'] = !TRUE;
+$config['view_minify'] = TRUE;
 
 if( CI_VERSION<"3.0.0" )
 {
