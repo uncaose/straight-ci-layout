@@ -221,7 +221,7 @@ class Straight_layout Extends CI_Driver
             }
             else
             {
-                $href = "href='{$href}'";
+                $href = preg_match('#href=#i', $href)?$href:"href='{$href}'";
             }
 
             $_css[$key] = "\n\t<link rel='stylesheet' type='text/css' {$href} />";
@@ -243,7 +243,7 @@ class Straight_layout Extends CI_Driver
             }
             else
             {
-                $src = "src='{$src}'";
+                $src = preg_match('#src=#i', $src)?$src:"src='{$src}'";
             }
 
             $_js[$key] = "<script type='text/javascript' {$src}></script>";
