@@ -67,6 +67,7 @@ views/straight/depth
     <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" />
     <link rel='stylesheet' type='text/css' href='/asset/css/_layout.css' />
     <link rel='stylesheet' type='text/css' href='/asset/css/_skin.css' />
+    <link rel='stylesheet' type='text/css' href='/asset/css/welcome_head.css' />
     <link rel='stylesheet' type='text/css' href='/asset/css/welcome_message.css' />
 </head>
 <body>
@@ -83,6 +84,7 @@ views/straight/depth
     <script type='text/javascript' src='/asset/js/_layout.js'></script>
     <script type='text/javascript' src='/asset/js/_skin.js'></script>
     <script type='text/javascript' src='/asset/js/welcome_message.js'></script>
+    <script type='text/javascript' src='/asset/js/welcome_foot.js'></script>
 </body>
 </html>
 ```
