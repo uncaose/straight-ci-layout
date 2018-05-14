@@ -80,22 +80,23 @@ class Asset2 extends CI_Controller
             }
         }
 
-		$content = '';
+		$content = [];
 		foreach( $cache AS $h => $f )
 		{
 			$f = VIEWPATH.$f;
 			switch( $ext ){
 				case( 'js' ):
-					$content .= $this->_js( $f );
+					$content[] = "/*".str_replace(VIEWPATH,'', $f)."*/".$this->_js( $f );
 				break;
 				case( 'css' ):
-					$content .= $this->_css( $f );
+					$content[] = "/*".str_replace(VIEWPATH,'', $f)."*/".$this->_css( $f );
 				break;
 				default:
 					show_404();
 				break;
 			}
-		}
+        }
+        $content = join($ext=='js'?";\n":"\n", $content);
 
         if( $this->isCache )
         {
