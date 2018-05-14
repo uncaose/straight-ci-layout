@@ -224,7 +224,7 @@ class Straight_layout Extends CI_Driver
                 $href = "href='{$href}'";
             }
 
-            $_css[$key] = "\n\t<link rel='stylesheet' type='text/css' {$href} />\n</head>";
+            $_css[$key] = "\n\t<link rel='stylesheet' type='text/css' {$href} />";
         }
         return str_replace('</head>', join("\n\t", $_css)."\n</head>", $output);
     }
@@ -246,7 +246,7 @@ class Straight_layout Extends CI_Driver
                 $src = "src='{$src}'";
             }
 
-            $_js[$key] = "<script type='text/javascript' {$src}></script>\n</body>";
+            $_js[$key] = "<script type='text/javascript' {$src}></script>";
         }
         return str_replace('</body>', join("\n\t", $_js)."\n</body>", $output);
     }
