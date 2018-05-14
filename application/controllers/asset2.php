@@ -30,7 +30,8 @@ class Asset2 extends CI_Controller
 		$this->straight->layout->header( $file );
 
 		$this->straight->layout->header( $file );
-		echo $this->_js( $file );
+        echo $this->_js( $file );
+        exit;
 	}
 	
 	public function css()
@@ -41,7 +42,8 @@ class Asset2 extends CI_Controller
 		$this->straight->layout->header( $file );
 
 		$this->straight->layout->header( $file );
-		echo $this->_css( $file );
+        echo $this->_css( $file );
+        exit;
 	}
 
 	public function combine( $file = '' )
