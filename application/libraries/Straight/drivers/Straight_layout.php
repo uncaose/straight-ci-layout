@@ -226,7 +226,7 @@ class Straight_layout Extends CI_Driver
 
             $_css[$key] = "<link rel='stylesheet' type='text/css' {$href} />";
         }
-        return str_replace('</head>', join("\n\t", $_css)."\n</head>", $output);
+        return str_replace('</head>', "\t".join("\n\t", $_css)."\n</head>", $output);
     }
 
     public function js( $output = '' )
@@ -248,7 +248,7 @@ class Straight_layout Extends CI_Driver
 
             $_js[$key] = "<script type='text/javascript' {$src}></script>";
         }
-        return str_replace('</body>', join("\n\t", $_js)."\n</body>", $output);
+        return str_replace('</body>', "\n\t".join("\n\t", $_js)."\n</body>", $output);
     }
 
 	public function output( $output = '' )
