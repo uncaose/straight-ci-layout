@@ -123,6 +123,13 @@ class MY_Loader extends CI_Loader
         
         return $this->_js;
     }
+
+    // view alias return $this
+    public function _view($view, $vars = [])
+    {
+        $this->view($view, $vars);
+        return $this;
+    }
 }
 
 /**

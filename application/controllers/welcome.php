@@ -29,9 +29,8 @@ class Welcome extends MY_Controller
                 'https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js',
             ])->js([
                 'src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js" crossorigin="anonymous"'
-            ]);
-        $this->load->view('welcome_head');
-		$this->load->view('welcome_message');
-        $this->load->view('welcome_foot');
+            ])->_view('welcome_head')
+            ->_view('welcome_message')
+            ->_view('welcome_foot');
 	}
 }
