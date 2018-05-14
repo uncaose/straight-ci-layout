@@ -224,7 +224,7 @@ class Straight_layout Extends CI_Driver
                 $href = preg_match('#href=#i', $href)?$href:"href='{$href}'";
             }
 
-            $_css[$key] = "\n\t<link rel='stylesheet' type='text/css' {$href} />";
+            $_css[$key] = "<link rel='stylesheet' type='text/css' {$href} />";
         }
         return str_replace('</head>', join("\n\t", $_css)."\n</head>", $output);
     }
