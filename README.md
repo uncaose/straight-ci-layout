@@ -58,6 +58,7 @@ views/straight/depth
 <html>
 <head>
     ...
+    <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" />
     <link rel='stylesheet' type='text/css' href='/asset/css/_layout.css' />
     <link rel='stylesheet' type='text/css' href='/asset/css/_skin.css' />
     <link rel='stylesheet' type='text/css' href='/asset/css/welcome_message.css' />
@@ -70,6 +71,9 @@ views/straight/depth
         </_skin.php>
     </_layout.php>
 
+    <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js"></script>
+    <script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js"></script>
     <script type='text/javascript' src='/asset/js/_layout.js'></script>
     <script type='text/javascript' src='/asset/js/_skin.js'></script>
     <script type='text/javascript' src='/asset/js/welcome_message.js'></script>
@@ -104,12 +108,12 @@ if( CI_VERSION<"3.0.0" )
 ## minify, combine Output ##
 
 ```html
-<html lang="en"><head><meta charset="utf-8"><title>Welcome to CodeIgniter</title><link rel='stylesheet' type='text/css' href='/asset/combine/c93667b961c1da6c29ac55d8e6b51e61.css' /></head><body> <div id="container"> <h1>Welcome to CodeIgniter!</h1><div id="body"><p>The page you are looking at is being generated dynamically by CodeIgniter.</p><p>If you would like to edit this page you'll find it located at:</p><code> application/views/welcome_message.css<br/> application/views/welcome_message.js<br/> application/views/welcome_message.php </code><p>The corresponding controller for this page is found at:</p><code>application/controllers/Welcome.php</code><p>If you are exploring CodeIgniter for the very first time, you should start by reading the <a href="user_guide/">User Guide</a>.</p><p>CI_VERSION : 3.1.8 / ENVIRONMENT : development</p><p><a href="https://github.com/uncaose/straight-ci-layout" target="_blank">https://github.com/uncaose/straight-ci-layout</a></p><ul><li><a href="/straight/welcome">/straight/welcome</a></li><li><a href="/straight/welcome/depth">/straight/welcome/depth</a></li></ul></div><p class="footer">Page rendered in <strong>0.0206</strong> seconds. CodeIgniter Version <strong>3.1.8</strong></p></div><pre style="white-space: pre-wrap;">
+<html lang="en"><head><meta charset="utf-8"><title>Welcome to CodeIgniter</title><link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" /><link rel='stylesheet' type='text/css' href='/asset/combine/c93667b961c1da6c29ac55d8e6b51e61.css' /></head><body> <div id="container"> <h1>Welcome to CodeIgniter!</h1><div id="body"><p>The page you are looking at is being generated dynamically by CodeIgniter.</p><p>If you would like to edit this page you'll find it located at:</p><code> application/views/welcome_message.css<br/> application/views/welcome_message.js<br/> application/views/welcome_message.php </code><p>The corresponding controller for this page is found at:</p><code>application/controllers/Welcome.php</code><p>If you are exploring CodeIgniter for the very first time, you should start by reading the <a href="user_guide/">User Guide</a>.</p><p>CI_VERSION : 3.1.8 / ENVIRONMENT : development</p><p><a href="https://github.com/uncaose/straight-ci-layout" target="_blank">https://github.com/uncaose/straight-ci-layout</a></p><ul><li><a href="/straight/welcome">/straight/welcome</a></li><li><a href="/straight/welcome/depth">/straight/welcome/depth</a></li></ul></div><p class="footer">Page rendered in <strong>0.0206</strong> seconds. CodeIgniter Version <strong>3.1.8</strong></p></div><pre style="white-space: pre-wrap;">
 Straight-layout
 </pre><textarea name="desc">
 Straight-layout
 </textarea><script type="text/javascript">
 // Straight-layout
 console.log( 'Straight-layout' );
-</script><script type='text/javascript' src='/asset/combine/8a982f02f422b7e90425eaf2b4a5a852.js'></script></body></html>
+</script><script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script><script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js"></script><script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js"></script><script type='text/javascript' src='/asset/combine/8a982f02f422b7e90425eaf2b4a5a852.js'></script></body></html>
 ```
