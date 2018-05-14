@@ -217,7 +217,7 @@ class Straight_layout Extends CI_Driver
             {
                 $href = isset($href[0])?
                         "href='{$href[0]}'":
-                        join(' ', array_map(function($key, $val){ return " {$key}='{$val}'";    }, array_keys($href), array_values($href)));
+                        join(' ', array_map(function($key, $val){ return "{$key}='{$val}'";    }, array_keys($href), array_values($href)));
             }
             else
             {
@@ -239,7 +239,7 @@ class Straight_layout Extends CI_Driver
             {
                 $src = isset($src[0])?
                     "src='{$src[0]}'":
-                    join(' ', array_map(function($key, $val){ return " {$key}='{$val}'";    }, array_keys($src), array_values($src)));
+                    join(' ', array_map(function($key, $val){ return "{$key}='{$val}'";    }, array_keys($src), array_values($src)));
             }
             else
             {
