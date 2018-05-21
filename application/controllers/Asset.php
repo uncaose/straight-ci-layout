@@ -47,7 +47,7 @@ class Asset extends CI_Controller
 
 		$this->straight->layout->header( $file );
 
-		if( $content = $this->cache->get( $file ) ) // 캐시
+		if( $content = $this->cache->get( $file ) ) // md5.ext key
 		{
 			if( isset($content['minify']) && $content['minify'] == $this->config['asset_minify_'.$ext] )
 			{
@@ -55,12 +55,12 @@ class Asset extends CI_Controller
 				exit;
             }
         }
-        else if( $cache = $this->cache->get($key) )
+        else if( $cache = $this->cache->get($key) ) // md5 key
         {
             if( is_array($cache) ) $cache = $cache[0];
             $cache = @json_decode($cache, TRUE);
         }
-        else if( strlen($l) ) 
+        else if( strlen($l) )   // file list
         {
             $cache = explode(',', urldecode($l) );
             if( ! sizeof($cache) )
@@ -77,12 +77,13 @@ class Asset extends CI_Controller
 		foreach( $cache AS $h => $f )
 		{
 			$f = VIEWPATH.$f;
-			switch( $ext ){
+            switch( $ext )
+            {
 				case( 'js' ):
-					$content[] = "/*".str_replace(VIEWPATH,'', $f)."*/".$this->_js( $f );
+					$content[] = $this->_js( $f );
 				break;
 				case( 'css' ):
-					$content[] = "/*".str_replace(VIEWPATH,'', $f)."*/".$this->_css( $f );
+					$content[] = $this->_css( $f );
 				break;
 				default:
 					show_404();
@@ -97,24 +98,28 @@ class Asset extends CI_Controller
 
 	private function _js( $file = '' )
 	{
+        $rs = '';
 		if( $this->config['asset_minify_js'] === TRUE && class_exists('MatthiasMullie\\Minify\\JS') )
 		{
 			$minifier = new Minify\JS( $file );
-			return $minifier->minify();
+			$rs = $minifier->minify();
 		}else{
-			return $this->straight->layout->asset( $file );
-		}
+			$rs = $this->straight->layout->asset( $file );
+        }
+        return (ENVIRONMENT!=='production'?'/*'.str_replace(VIEWPATH,'', $file).'*/':'').$rs;
 	}
 
 	private function _css( $file = '' )
 	{
+        $rs = '';
 		if( $this->config['asset_minify_css'] === TRUE && class_exists('MatthiasMullie\\Minify\\CSS') )
 		{
-			$minifier = new Minify\CSS( $file );
-			return $minifier->minify();
+            $minifier = new Minify\CSS( $file );
+            $rs = $minifier->minify();
 		}else{
-			return $this->straight->layout->asset( $file );
-		}
+			$rs = $this->straight->layout->asset( $file );
+        }
+        return (ENVIRONMENT!=='production'?'/*'.str_replace(VIEWPATH,'', $file).'*/':'').$rs;
 	}
 }
 
