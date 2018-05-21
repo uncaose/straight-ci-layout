@@ -72,7 +72,9 @@ Class Welcome extends MY_Controller
     
     <_layout.php>
         <_skin.php>
-            ... welcome_message.php contents ...
+            <welcome_head.php>
+            <welcome_message.php>
+            <welcome_foot.php>
         </_skin.php>
     </_layout.php>
 
