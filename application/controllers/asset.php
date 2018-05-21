@@ -6,7 +6,7 @@ use MatthiasMullie\Minify;
  * @author	: uncaose@gmail.com
  * @url 	: https://github.com/uncaose/straight-ci-layout
  */
-class Asset2 extends CI_Controller
+class Asset extends CI_Controller
 {
 	public $cofnig = [];
 	public $isCache = FALSE;
@@ -73,7 +73,7 @@ class Asset2 extends CI_Controller
             if( is_array($cache) ) $cache = $cache[0];
             $cache = @json_decode($cache, TRUE);
         }
-        else if( strlen($l) ) 
+        else if( strlen($l) ) // 파일목록
         {
             $cache = explode(',', $l );
             if( ! sizeof($cache) )

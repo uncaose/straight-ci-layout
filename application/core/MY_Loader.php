@@ -18,7 +18,7 @@ class MY_Loader extends CI_Loader
 			list($this->_ci_view_path) = array_keys($this->_ci_view_paths);
 		}
 
-		if( CI_VERSION < "3.0.0"  )	// ci2 에서 composer_autoload apply
+		if( CI_VERSION < "3"  )	// ci2 에서 composer_autoload apply
 		{
 			$this->_composer_autoload();	
 		}

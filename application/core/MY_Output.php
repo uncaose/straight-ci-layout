@@ -7,7 +7,7 @@
 class MY_Output extends CI_Output
 {
 	public function __construct() {
-        if( CI_VERSION >= "3.0.0"  )
+        if( CI_VERSION >= "3"  )
         {
             parent::__construct();
         }

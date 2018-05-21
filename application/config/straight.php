@@ -16,10 +16,10 @@ $config['view_skin'] = '_skin';
 $config['view_layout'] = '_layout';
 $config['view_minify'] = TRUE;
 
-if( CI_VERSION<"3.0.0" )
+if( CI_VERSION < "3" )
 {
     $config['modules'] = ['straight_layout'];
-    $config['asset_controller'] = 'asset2'; // window...
+    $config['asset_controller'] = 'asset'; // window... required rename
 }
 
 /**
