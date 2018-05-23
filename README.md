@@ -10,8 +10,8 @@
 ```php
 $this->load->css('any.css'); // chainning
 $this->load->js('any.js');  // chainning
-$this->load->view('any', []);   // chainning
-$this->load->view('any', [], TRUE);   // non chain, return view string
+$this->load->view('any', []);   // CI3 default
+$this->load->view('any', [], TRUE);   // CI3 default, non chain
 $this->load->css()->js()->view()->view()->css()->js()->view();    // usage
 ```
 

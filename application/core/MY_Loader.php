@@ -22,12 +22,7 @@ class MY_Loader extends CI_Loader
             array_push( $this->_views, substr($view, strpos($view, '/')===0?1:0) ); // store viewname
         }
 
-        if( $return === TRUE )
-        {
-            return parent::view($view, $vars, $return);
-        }
-
-        return $this;
+        return  parent::view($view, $vars, $return);
     }
 
     public function _view($view, $vars = [], $return = FALSE, $unshift = FALSE )
