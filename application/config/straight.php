@@ -16,12 +16,6 @@ $config['view_skin'] = '_skin';
 $config['view_layout'] = '_layout';
 $config['view_minify'] = TRUE;
 
-if( CI_VERSION < "3" )
-{
-    $config['modules'] = ['straight_layout'];
-    $config['asset_controller'] = 'asset'; // window... required rename
-}
-
 /**
  * End of File config/straight.php
  */
