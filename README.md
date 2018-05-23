@@ -8,10 +8,11 @@
 
 ## Method ##
 ```php
-$this->load->css(); // enable chain
-$this->load->js();  // enable chain
-$this->load->_view();   // enable chain
-$this->load->css()->js()->_view()->_view()->css()->js()->view();    // usage
+$this->load->css('any.css'); // chainning
+$this->load->js('any.js');  // chainning
+$this->load->view('any');   // chainning
+$this->load->view('any', TRUE);   // non chain, return view string
+$this->load->css()->js()->view()->view()->css()->js()->view();    // usage
 ```
 
 ## Config ##

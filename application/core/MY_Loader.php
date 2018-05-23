@@ -21,14 +21,18 @@ class MY_Loader extends CI_Loader
         } else {
             array_push( $this->_views, substr($view, strpos($view, '/')===0?1:0) ); // store viewname
         }
-        return parent::view($view, $vars, $return);
+
+        if( $return === TRUE )
+        {
+            return parent::view($view, $vars, $return);
+        }
+
+        return $this;
     }
 
-    // view alias return $this
-    public function _view($view, $vars = [])
+    public function _view($view, $vars = [], $return = FALSE, $unshift = FALSE )
     {
-        $this->view($view, $vars);
-        return $this;
+        return $this->view($view, $vars);
     }
     
     public function getView( $unique=FALSE )
