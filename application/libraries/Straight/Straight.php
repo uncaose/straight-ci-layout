@@ -11,22 +11,20 @@ class Straight extends CI_Driver_Library
 	public $config = [];
 
 	public $valid_drivers;
-    public $CI;
     
 	public function __construct()
 	{
-		$this->CI =& get_instance();
-		$this->CI->config->load('straight', TRUE, FALSE);
-		$this->config =  $this->CI->config->config['straight'];
-		$this->valid_drivers = $this->CI->config->item('modules', 'straight');
-
+        get_instance()->config->load('straight', TRUE, FALSE);
+		$this->config =  get_instance()->config->config['straight'];
+        $this->valid_drivers = $this->config['modules'];
+        
 		$this->_init();
 	}
 
 	public function _init()
 	{
 		if( ! defined('EXT') ) define('EXT', '.php');	// ci2 EXT redefine
-        if( ! defined('VIEWPATH')  ) define('VIEWPATH', $this->CI->load->_ci_view_path); // ci3 style
+        if( ! defined('VIEWPATH')  ) define('VIEWPATH', get_instance()->load->_ci_view_path); // ci3 style
         get_instance()->load->driver('cache', $this->config['adapter'] );
 	}
 }

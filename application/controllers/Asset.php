@@ -13,7 +13,6 @@ class Asset extends CI_Controller
 	public function __construct() {
         parent::__construct();
 		$this->config->load('straight', TRUE, FALSE);
-		$this->load->driver('straight');
         $this->config = $this->config->item('straight');
         $this->load->driver('cache', $this->config['adapter']);
 	}
@@ -22,7 +21,7 @@ class Asset extends CI_Controller
 	{
 		$file = VIEWPATH.join('/', func_get_args());
 
-		$this->straight->layout->header( $file );
+		$this->header( $file );
 		echo $this->_js( $file );
 	}
 	
@@ -30,7 +29,7 @@ class Asset extends CI_Controller
 	{
 		$file = VIEWPATH.join('/', func_get_args());
 
-		$this->straight->layout->header( $file );
+		$this->header( $file );
 		echo $this->_css( $file );
 	}
 
@@ -45,7 +44,7 @@ class Asset extends CI_Controller
 			show_404();
         }
 
-		$this->straight->layout->header( $file );
+		$this->header( $file );
 
 		if( $content = $this->cache->get( $file ) ) // md5.ext key
 		{
@@ -120,6 +119,77 @@ class Asset extends CI_Controller
 			$rs = $this->straight->layout->asset( $file );
         }
         return (ENVIRONMENT!=='production'?'/*'.str_replace(VIEWPATH,'', $file).'*/':'').$rs;
+    }
+    
+    private function header( $file = '' )
+	{
+		switch( pathinfo( $file, PATHINFO_EXTENSION ) )
+		{
+			case( 'js' ):
+				header('Content-Type: text/javascript');
+				break;
+			case( 'css' ):
+				header('Content-Type: text/css');
+				break;
+			default:
+				header('HTTP/1.0 404 Not Found'); exit;
+				break;
+		}
+		$this->webCache( $file );
+    }
+    
+    private function asset( $file='' )
+	{
+		if( empty($file) || ! file_exists($file) )    // existst file
+		{
+			header('HTTP/1.0 404 Not Found');
+			exit;
+		}
+
+		$this->load->helper('file');
+		$this->output->set_content_type( get_mime_by_extension($file) );
+		ob_start();
+		readfile( $file );
+		$content = ob_get_clean();
+
+		return $content;
+	}
+
+	// 30758400 : 1 year
+	private function webCache( $file='', $time=30758400 )
+	{
+		if( empty($file) )    // existst file
+		{
+			header('HTTP/1.0 404 Not Found');
+			exit;
+		}
+
+		$lastModifTime = '';
+		if( file_exists($file) )
+		{
+			$lastModifTime = filemtime($file);
+			$Etag = hash_file($this->config['asset_hashkey'], $file);
+		}else{
+			$Etag = hash($this->config['asset_hashkey'], $file);
+		}
+
+		// checkt last time & Etag
+		if ( ( isset($_SERVER['HTTP_IF_MODIFIED_SINCE']) && strtotime($_SERVER['HTTP_IF_MODIFIED_SINCE']) == $lastModifTime  )
+			|| ( ! empty($Etag) && isset($_SERVER['HTTP_IF_NONE_MATCH']) && trim($_SERVER['HTTP_IF_NONE_MATCH']) == $Etag) )
+		{
+			// Not Modify
+			header("HTTP/1.1 304 Not Modified");
+			exit;
+		}
+
+		// set Cache header
+		header('Vary: Accept-Encoding');
+		header("Expires: ".gmdate("D, d M Y H:i:s", time()+$time)." GMT");
+		if( ! empty($lastModifTime) ) header("Last-Modified: ".gmdate("D, d M Y H:i:s", $lastModifTime)." GMT");
+		header("Etag: {$Etag}");
+		header('Pragma: cache');
+		header('Cache-Control: public');
+		header("Cache-Control: max-age=".$time);
 	}
 }
 

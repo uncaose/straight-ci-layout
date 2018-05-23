@@ -8,113 +8,42 @@
  */
 class Straight_layout Extends CI_Driver
 {
-	public function header( $file = '' )
-	{
-		switch( pathinfo( $file, PATHINFO_EXTENSION ) )
-		{
-			case( 'js' ):
-				header('Content-Type: text/javascript');
-				break;
-			case( 'css' ):
-				header('Content-Type: text/css');
-				break;
-			default:
-				header('HTTP/1.0 404 Not Found'); exit;
-				break;
-		}
-		$this->webCache( $file );
-	}
-
-	public function asset( $file='' )
-	{
-		if( empty($file) || ! file_exists($file) )    // existst file
-		{
-			header('HTTP/1.0 404 Not Found');
-			exit;
-		}
-
-		$this->CI->load->helper('file');
-		$this->CI->output->set_content_type( get_mime_by_extension($file) );
-		ob_start();
-		readfile( $file );
-		$content = ob_get_clean();
-
-		return $content;
-	}
-
-	// 30758400 : 1 year
-	public function webCache( $file='', $time=30758400 )
-	{
-		if( empty($file) )    // existst file
-		{
-			header('HTTP/1.0 404 Not Found');
-			exit;
-		}
-
-		$lastModifTime = '';
-		if( file_exists($file) )
-		{
-			$lastModifTime = filemtime($file);
-			$Etag = hash_file($this->config['asset_hashkey'], $file);
-		}else{
-			$Etag = hash($this->config['asset_hashkey'], $file);
-		}
-
-		// checkt last time & Etag
-		if ( ( isset($_SERVER['HTTP_IF_MODIFIED_SINCE']) && strtotime($_SERVER['HTTP_IF_MODIFIED_SINCE']) == $lastModifTime  )
-			|| ( ! empty($Etag) && isset($_SERVER['HTTP_IF_NONE_MATCH']) && trim($_SERVER['HTTP_IF_NONE_MATCH']) == $Etag) )
-		{
-			// Not Modify
-			header("HTTP/1.1 304 Not Modified");
-			exit;
-		}
-
-		// set Cache Header
-		header('Vary: Accept-Encoding');
-		header("Expires: ".gmdate("D, d M Y H:i:s", time()+$time)." GMT");
-		if( ! empty($lastModifTime) ) header("Last-Modified: ".gmdate("D, d M Y H:i:s", $lastModifTime)." GMT");
-		header("Etag: {$Etag}");
-		header('Pragma: cache');
-		header('Cache-Control: public');
-		header("Cache-Control: max-age=".$time);
-	}
-
 	private function skin( $output='' )
 	{
-		if( $this->CI->load->_skin != $this->CI->config->item('view_skin') )
+		if( get_instance()->load->_skin != $this->config['view_skin'] )
 		{
-			$path = substr($this->CI->load->_views[0], 0, strrpos($this->CI->load->_views[0], '/'));
-			$skin = $path.'/'.str_replace(EXT, '', $this->CI->load->_skin);
+			$path = substr(get_instance()->load->_views[0], 0, strrpos(get_instance()->load->_views[0], '/'));
+			$skin = $path.'/'.str_replace(EXT, '', get_instance()->load->_skin);
 
 			if( file_exists(VIEWPATH.$skin.EXT) )
 			{
-				$this->CI->load->_skin = $skin;
+				get_instance()->load->_skin = $skin;
 			}
 		}
 
-		if( file_exists(VIEWPATH.$this->CI->load->_skin.EXT) )
+		if( file_exists(VIEWPATH.get_instance()->load->_skin.EXT) )
 		{
-			$output = $this->CI->load->view( $this->CI->load->_skin, Array('skin'=>$output), TRUE, TRUE );
+			$output = get_instance()->load->view( get_instance()->load->_skin, Array('skin'=>$output), TRUE, TRUE );
 		}
 		return $output;
 	}
 
 	private function layout( $output='' )
 	{
-		if( $this->CI->load->_layout != $this->CI->config->item('view_layout') )
+		if( get_instance()->load->_layout != $this->config['view_layout'] )
 		{
-			$path = substr($this->CI->load->_views[0], 0, strrpos($this->CI->load->_views[0], '/'));
-			$layout = $path.'/'.str_replace(EXT, '', $this->CI->load->_layout);
+			$path = substr(get_instance()->load->_views[0], 0, strrpos(get_instance()->load->_views[0], '/'));
+			$layout = $path.'/'.str_replace(EXT, '', get_instance()->load->_layout);
 	
 			if( file_exists(VIEWPATH.$layout.EXT) )
 			{
-				$this->CI->load->_layout = $layout;
+				get_instance()->load->_layout = $layout;
 			}
 		}
 
-		if( file_exists(VIEWPATH.$this->CI->load->_layout.EXT) )
+		if( file_exists(VIEWPATH.get_instance()->load->_layout.EXT) )
 		{
-			$output = $this->CI->load->view( $this->CI->load->_layout, Array('layout'=>$output), TRUE, TRUE );
+			$output = get_instance()->load->view( get_instance()->load->_layout, Array('layout'=>$output), TRUE, TRUE );
 		}
 		else
 		{
@@ -128,7 +57,7 @@ class Straight_layout Extends CI_Driver
 	{
 		$asset_path = $this->config['asset_controller'];
 		$nocache_uri = $this->config['asset_nocache_uri'];
-		$views = $this->CI->load->getView(TRUE);
+		$views = get_instance()->load->getView(TRUE);
 
 		foreach( $views AS $v )
 		{
@@ -156,7 +85,7 @@ class Straight_layout Extends CI_Driver
 	{
 		$asset_path = $this->config['asset_controller'];
 		$nocache_uri = $this->config['asset_nocache_uri'];
-		$views = $this->CI->load->getView(TRUE);
+		$views = get_instance()->load->getView(TRUE);
 
 		$_js = [];
 		$_css = [];

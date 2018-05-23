@@ -7,6 +7,13 @@
 - Codeigniter 3.1.8
 - Version 2 will all be higher.
 
+## Method ##
+```php
+$this->load->css(); // enable chain
+$this->load->js();  // enable chain
+$this->load->_view();   // enable chain
+$this->load->css()->js()->_view()->_view()->css()->js()->view();    // usage
+```
 
 ## Config ##
 ```php

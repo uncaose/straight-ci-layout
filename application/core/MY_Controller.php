@@ -6,7 +6,8 @@
  */
 class MY_Controller extends CI_Controller
 {
-	public function __construct() {
+    public function __construct()
+    {
 		parent::__construct();
 		$this->load->driver('straight');
 	}
@@ -14,8 +15,10 @@ class MY_Controller extends CI_Controller
 	/**
 	 * CI _output
 	 */
-	public function _output( $output='' ) {
-		echo $this->straight->layout->output( $output );
+    public function _output( $output )
+    {
+        if( preg_match('#css|stylesheet|js|javascript#', getallheaders()['Accept']) || $this->input->is_ajax_request() ) echo $output;
+		else echo $this->straight->layout->output( $output );
 	}
 }
 
