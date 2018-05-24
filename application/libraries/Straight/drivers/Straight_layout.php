@@ -211,12 +211,12 @@ class Straight_layout Extends CI_Driver
 		if( $cnt && $cnt > sizeof(get_instance()->load->_js) )
 		{
 			$buffer = str_replace($found[0], array_map(function($el){ return '<textarea>'.$el.'</textarea>'; }, array_keys($found[0])), $buffer); // replacing both with <textarea>$index</textarea>
-			$buffer = preg_replace([ '/\>[^\S ]+/s', '/[^\S ]+\</s', '/(\s)+/s', '/<!--(.|\s)*?-->/' ],[ '>', '<', '\\1', '' ], $buffer);
+			$buffer = preg_replace([ '/\>[^\S ]+/s', '/[^\S ]+\</s', '/(\s)+/s', '/<!--[^\\[<>].*?(?<!!)-->/' ],[ '>', '<', '\\1', '' ], $buffer);
 			$buffer = str_replace(array_map(function($el){ return '<textarea>'.$el.'</textarea>'; }, array_keys($found[0])), $found[0], $buffer); // Replacing back with content
 		}
 		else
 		{
-			$buffer = preg_replace([ '/\>[^\S ]+/s', '/[^\S ]+\</s', '/(\s)+/s', '/<!--(.|\s)*?-->/' ],[ '>', '<', '\\1', '' ], $buffer);
+			$buffer = preg_replace([ '/\>[^\S ]+/s', '/[^\S ]+\</s', '/(\s)+/s', '/<!--[^\\[<>].*?(?<!!)-->/' ],[ '>', '<', '\\1', '' ], $buffer);
 		}
 
 		return $buffer;
