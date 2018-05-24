@@ -3,9 +3,6 @@
 
 ## Apply CI version ##
 - Codeigniter 2.2.6
-- Codeigniter 3.1.7
-- Codeigniter 3.1.8
-- Version 2 will all be higher.
 
 ## Method ##
 ```php
