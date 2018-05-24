@@ -2,7 +2,7 @@
 - Using MY_Controller.php
 
 ## Apply CI version ##
-- <s>Codeigniter 2.2.6</s> : [CI3/CI2 straight-ci-layout v1.1](https://github.com/uncaose/straight-ci-layout/releases/tag/v1.1)
+- Codeigniter 2.2.6 : [CI2 straight-ci-layout](https://github.com/uncaose/straight-ci-layout/tree/CI2)
 - Codeigniter 3.1.7
 - Codeigniter 3.1.8
 
