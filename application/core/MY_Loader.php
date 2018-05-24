@@ -18,10 +18,7 @@ class MY_Loader extends CI_Loader
 			list($this->_ci_view_path) = array_keys($this->_ci_view_paths);
 		}
 
-		if( CI_VERSION < "3"  )	// ci2 에서 composer_autoload apply
-		{
-			$this->_composer_autoload();	
-		}
+		$this->_composer_autoload();	
 	}
 
 	private function _composer_autoload()
@@ -51,10 +48,12 @@ class MY_Loader extends CI_Loader
 			array_unshift( $this->_views, substr($view, strpos($view, '/')===0?1:0) ); // store viewname
 		} else {
 			array_push( $this->_views, substr($view, strpos($view, '/')===0?1:0) ); // store viewname
-		}
-		return parent::view($view, $vars, $return);
-	}
-	
+        }
+        
+        $rs = parent::view($view, $vars, $return);
+        return $return ? $rs : $this;
+    }
+    
 	public function getView( $unique=FALSE ) {
 		if( $unique === TRUE ) {
 			return array_unique( $this->_views, SORT_STRING );
@@ -122,13 +121,6 @@ class MY_Loader extends CI_Loader
         }
         
         return $this->_js;
-    }
-
-    // view alias return $this
-    public function _view($view, $vars = [])
-    {
-        $this->view($view, $vars);
-        return $this;
     }
 }
 

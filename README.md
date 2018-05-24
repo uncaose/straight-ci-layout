@@ -9,15 +9,16 @@
 
 ## Method ##
 ```php
-$this->load->css(); // enable chain
-$this->load->js();  // enable chain
-$this->load->_view();   // enable chain
-$this->load->css()->js()->_view()->_view()->css()->js()->view();    // usage
+$this->load->css('any.css'); // enable chain
+$this->load->js('any.js');  // enable chain
+$this->load->view('any');   // enable chain
+$this->load->view('any', [], TRUE); // CI2 default, non chain
+$this->load->css()->js()->view()->view()->css()->js()->view();    // usage
 ```
 
 ## Config ##
 ```php
-$config['modules'] = ['layout'];
+$config['modules'] = ['straight_layout'];   // CI2
 $config['asset_controller'] = 'asset';
 $config['asset_hashkey'] = 'md5';
 $config['asset_nocache_uri'] = TRUE;   // TRUE : /asset/css/style.css?_=abc...1234, FALSE : /asset/cas/style.css
@@ -31,12 +32,6 @@ $config['ttl'] = 2592000;	// 30 day
 $config['view_skin'] = '_skin';
 $config['view_layout'] = '_layout';
 $config['view_minify'] = TRUE;
-
-if( CI_VERSION < "3" )
-{
-    $config['modules'] = ['straight_layout'];
-    $config['asset_controller'] = 'asset2'; // window...
-}
 ```
 
 ## Ex Controller ##
@@ -50,15 +45,9 @@ Class Welcome extends MY_Controller
                     'https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js',
                 ])->js([
                     'src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js" crossorigin="anonymous"'
-                ])->_view('welcome_head')
-                ->_view('welcome_message')
-                ->_view('welcome_foot');
-    }
-
-    // Ex
-    public function depth()
-    {
-        $this->load->view('celcome_message');
+                ])->view('welcome_head')
+                ->view('welcome_message')
+                ->view('welcome_foot');
     }
 }
 ```

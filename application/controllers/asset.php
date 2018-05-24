@@ -12,18 +12,18 @@ use MatthiasMullie\Minify;
  */
 class Asset extends CI_Controller
 {
-	public $cofnig = [];
+	public $conf = [];
 	public $isCache = FALSE;
 
     public function __construct() 
     {
 		parent::__construct();
 		$this->config->load('straight', TRUE, FALSE);
-		$this->config = $this->config->item('straight');
-        $this->load->driver('cache', $this->config['adapter'] );
+		$this->conf = $this->config->item('straight');
+        $this->load->driver('cache', $this->conf['adapter'] );
 		
-		$this->isCache = $this->cache->{$this->config['adapter']['adapter']}->is_supported()
-				|| $this->cache->{$this->config['adapter']['backup']}->is_supported();
+		$this->isCache = $this->cache->{$this->conf['adapter']['adapter']}->is_supported()
+				|| $this->cache->{$this->conf['adapter']['backup']}->is_supported();
 	}
 
 	public function js()
@@ -32,7 +32,7 @@ class Asset extends CI_Controller
 
 		$this->load->driver('straight');
 		$this->header( $file );
-        echo $this->_js( $file ); exit;
+        echo $this->_js( $file );
 	}
 	
 	public function css()
@@ -41,7 +41,7 @@ class Asset extends CI_Controller
 
 		$this->load->driver('straight');
 		$this->header( $file );
-        echo $this->_css( $file ); exit;
+        echo $this->_css( $file );
 	}
 
 	public function combine( $file = '' )
@@ -59,7 +59,7 @@ class Asset extends CI_Controller
 
 		if( $this->isCache && $content = $this->cache->get( $file ) ) // 캐시
 		{
-			if( isset($content['minify']) && $content['minify'] == $this->config['asset_minify_'.$ext] )
+			if( isset($content['minify']) && $content['minify'] == $this->conf['asset_minify_'.$ext] )
 			{
 				echo $content['body'];
 				exit;
@@ -101,16 +101,16 @@ class Asset extends CI_Controller
 
         if( $this->isCache )
         {
-            $this->cache->save($file, ['minify'=>$this->config['asset_minify_'.$ext], 'body'=>$content], $this->config['ttl'] );
+            $this->cache->save($file, ['minify'=>$this->conf['asset_minify_'.$ext], 'body'=>$content], $this->conf['ttl'] );
         }
 
-            echo $content; exit;
+        echo $content;
 	}
 
 	private function _js( $file = '' )
 	{
         $rs = '';
-		if( $this->config['asset_minify_js'] === TRUE && class_exists('MatthiasMullie\\Minify\\JS') )
+		if( $this->conf['asset_minify_js'] === TRUE && class_exists('MatthiasMullie\\Minify\\JS') )
 		{
 			$minifier = new Minify\JS( $file );
 			$rs = $minifier->minify();
@@ -123,7 +123,7 @@ class Asset extends CI_Controller
 	private function _css( $file = '' )
 	{
         $rs = '';
-		if( $this->config['asset_minify_css'] === TRUE && class_exists('MatthiasMullie\\Minify\\CSS') )
+		if( $this->conf['asset_minify_css'] === TRUE && class_exists('MatthiasMullie\\Minify\\CSS') )
 		{
             $minifier = new Minify\CSS( $file );
             $rs = $minifier->minify();
@@ -180,9 +180,9 @@ class Asset extends CI_Controller
 		if( file_exists($file) )
 		{
 			$lastModifTime = filemtime($file);
-			$Etag = hash_file($this->config['asset_hashkey'], $file);
+			$Etag = hash_file($this->conf['asset_hashkey'], $file);
 		}else{
-			$Etag = hash($this->config['asset_hashkey'], $file);
+			$Etag = hash($this->conf['asset_hashkey'], $file);
 		}
 
 		// checkt last time & Etag

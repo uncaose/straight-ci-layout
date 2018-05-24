@@ -21,9 +21,4 @@
 		<p>
 			<a  class="btn btn-sm btn-primary" href="https://github.com/uncaose/straight-ci-layout" target="_blank">https://github.com/uncaose/straight-ci-layout</a>
 		</p>
-
-		<ul>
-			<li><a href="/straight/welcome">/straight/welcome</a></li>
-			<li><a href="/straight/welcome/depth">/straight/welcome/depth</a></li>
-		</ul>
 	</div>

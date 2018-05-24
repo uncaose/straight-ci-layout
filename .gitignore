@@ -1,15 +1,32 @@
-# CodeIgniter
-*/config/development
-*/logs/log-*.php
-!*/logs/index.html
-*/cache/*
-!*/cache/index.html
-!*/cache/.htaccess
-system
-index.php
-composer.lock
-vendor
+### Composer ###
+composer.phar
+/composer.lock
+/vendor/
+/vendor
 
-# IDE config
-.idea/*
-.vscode
+### Vim ###
+# swap
+.sw[a-p]
+.*.sw[a-p]
+# session
+Session.vim
+# temporary
+.netrwhist
+*~
+# auto-generated tag files
+tags
+
+### netbrains ###
+/.idea/*
+
+### vscode ###
+/.vscode
+
+### CodeIgniter ###
+/application/config/development
+/application/logs/log-*.php
+!/application/logs/index.html
+/application/cache/*
+!/application/cache/index.html
+!/application/cache/.htaccess
+/system

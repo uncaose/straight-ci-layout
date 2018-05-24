@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-$config['modules'] = ['layout'];
+$config['modules'] = ['straight_layout'];
 $config['asset_controller'] = 'asset';
 $config['asset_hashkey'] = 'md5';
 $config['asset_nocache_uri'] = TRUE;   // TRUE : /asset/css/style.css?_=abc...1234, FALSE : /asset/cas/style.css
@@ -15,12 +15,6 @@ $config['ttl'] = 2592000;	// 30 day
 $config['view_skin'] = '_skin';
 $config['view_layout'] = '_layout';
 $config['view_minify'] = TRUE;
-
-if( CI_VERSION < "3" )
-{
-    $config['modules'] = ['straight_layout'];
-    $config['asset_controller'] = 'asset'; // window... required rename
-}
 
 /**
  * End of File config/straight.php
