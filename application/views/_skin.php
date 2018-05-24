@@ -1,5 +1,4 @@
-<div id="container" class="container-fluid">
 
-    <?php echo isset($skin)?$skin:''?>
-
-</div>
+    <div class="skin">
+        <?php echo isset($skin)?$skin:''?>
+    </div>
