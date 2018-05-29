@@ -57,7 +57,7 @@ class Straight_layout Extends CI_Driver
 	{
 		$asset_path = $this->config['asset_controller'];
 		$nocache_uri = $this->config['asset_nocache_uri'];
-		$views = get_instance()->load->getView(TRUE);
+        $views = array_unique( get_instance()->load->_views, SORT_STRING );
 
 		foreach( $views AS $v )
 		{
@@ -85,7 +85,7 @@ class Straight_layout Extends CI_Driver
 	{
 		$asset_path = $this->config['asset_controller'];
 		$nocache_uri = $this->config['asset_nocache_uri'];
-		$views = get_instance()->load->getView(TRUE);
+		$views = array_unique( get_instance()->load->_views, SORT_STRING );
 
 		$_js = [];
 		$_css = [];
@@ -138,7 +138,7 @@ class Straight_layout Extends CI_Driver
     
     public function css( $output = '' )
     {
-		$_css = get_instance()->load->getCss();
+        $_css = get_instance()->load->_css;
 
 		foreach( $_css AS $key => $href )
 		{
@@ -160,7 +160,7 @@ class Straight_layout Extends CI_Driver
 
     public function js( $output = '' )
     {
-        $_js = get_instance()->load->getJs();
+        $_js = get_instance()->load->_js;
 
 		foreach( $_js AS $key => $src )
 		{

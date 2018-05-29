@@ -23,6 +23,7 @@ class Welcome extends MY_Controller
 	 */
 	public function index() {
         $this->load
+            ->cache(5)
             ->css('https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css')
             ->js([
                 ['src'=>'https://code.jquery.com/jquery-3.2.1.slim.min.js', 'integrity'=>'sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN','crossorigin'=>'anonymous'],
@@ -32,5 +33,5 @@ class Welcome extends MY_Controller
             ])->view('welcome_head')
             ->view('welcome_message')
             ->view('welcome_foot');
-	}
+    }
 }

@@ -9,8 +9,8 @@ class MY_Controller extends CI_Controller
     public function __construct()
     {
 		parent::__construct();
-		$this->load->driver('straight');
-	}
+        $this->load->driver('straight');
+    }
 
 	/**
 	 * CI _output

@@ -8,13 +8,13 @@ use MatthiasMullie\Minify;
  */
 class Asset extends CI_Controller
 {
-	public $conf = [];
+	public $env = [];
 
 	public function __construct() {
         parent::__construct();
 		$this->config->load('straight', TRUE, FALSE);
-        $this->conf = $this->config->item('straight');
-        $this->load->driver('cache', $this->conf['adapter']);
+        $this->env = $this->config->item('straight');
+        $this->load->driver('cache', $this->env['adapter']);
 	}
 
 	public function js()
@@ -48,7 +48,7 @@ class Asset extends CI_Controller
 
 		if( $content = $this->cache->get( $file ) ) // md5.ext key
 		{
-			if( isset($content['minify']) && $content['minify'] == $this->conf['asset_minify_'.$ext] )
+			if( isset($content['minify']) && $content['minify'] == $this->env['asset_minify_'.$ext] )
 			{
 				echo $content['body'];
 				exit;
@@ -91,14 +91,14 @@ class Asset extends CI_Controller
         }
         $content = join($ext=='js'?";\n":"\n", $content);
 
-        $this->cache->save($file, ['minify'=>$this->conf['asset_minify_'.$ext], 'body'=>$content], $this->conf['ttl'] );
+        $this->cache->save($file, ['minify'=>$this->env['asset_minify_'.$ext], 'body'=>$content], $this->env['ttl'] );
 		echo $content;
 	}
 
 	private function _js( $file = '' )
 	{
         $rs = '';
-		if( $this->conf['asset_minify_js'] === TRUE && class_exists('MatthiasMullie\\Minify\\JS') )
+		if( $this->env['asset_minify_js'] === TRUE && class_exists('MatthiasMullie\\Minify\\JS') )
 		{
 			$minifier = new Minify\JS( $file );
 			$rs = $minifier->minify();
@@ -111,7 +111,7 @@ class Asset extends CI_Controller
 	private function _css( $file = '' )
 	{
         $rs = '';
-		if( $this->conf['asset_minify_css'] === TRUE && class_exists('MatthiasMullie\\Minify\\CSS') )
+		if( $this->env['asset_minify_css'] === TRUE && class_exists('MatthiasMullie\\Minify\\CSS') )
 		{
             $minifier = new Minify\CSS( $file );
             $rs = $minifier->minify();
@@ -164,32 +164,8 @@ class Asset extends CI_Controller
 			exit;
 		}
 
-		$lastModifTime = '';
-		if( file_exists($file) )
-		{
-			$lastModifTime = filemtime($file);
-			$Etag = hash_file($this->conf['asset_hashkey'], $file);
-		}else{
-			$Etag = hash($this->conf['asset_hashkey'], $file);
-		}
-
-		// checkt last time & Etag
-		if ( ( isset($_SERVER['HTTP_IF_MODIFIED_SINCE']) && strtotime($_SERVER['HTTP_IF_MODIFIED_SINCE']) == $lastModifTime  )
-			|| ( ! empty($Etag) && isset($_SERVER['HTTP_IF_NONE_MATCH']) && trim($_SERVER['HTTP_IF_NONE_MATCH']) == $Etag) )
-		{
-			// Not Modify
-			header("HTTP/1.1 304 Not Modified");
-			exit;
-		}
-
-		// set Cache header
-		header('Vary: Accept-Encoding');
-		header("Expires: ".gmdate("D, d M Y H:i:s", time()+$time)." GMT");
-		if( ! empty($lastModifTime) ) header("Last-Modified: ".gmdate("D, d M Y H:i:s", $lastModifTime)." GMT");
-		header("Etag: {$Etag}");
-		header('Pragma: cache');
-		header('Cache-Control: public');
-		header("Cache-Control: max-age=".$time);
+		$Etag = file_exists($file)?hash_file($this->env['asset_hashkey'], $file):hash($this->env['asset_hashkey'], $file);
+        $this->load->cache( $time, $Etag );
 	}
 }
 

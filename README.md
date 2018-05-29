@@ -8,11 +8,12 @@
 
 ## Method ##
 ```php
+$this->load->cache() // browser cache Default : $time=60, $Etag=NULL
 $this->load->css('any.css'); // chainning
 $this->load->js('any.js');  // chainning
 $this->load->view('any', []);   // CI3 default
 $this->load->view('any', [], TRUE);   // CI3 default, non chain
-$this->load->css()->js()->view()->view()->css()->js()->view();    // usage
+$this->load->cache()->css()->js()->view()->view()->css()->js()->view();    // usage
 ```
 
 ## Config ##
@@ -38,21 +39,17 @@ $config['view_minify'] = TRUE;
 Class Welcome extends MY_Controller
 {
     public function index() {
-        $this->load->css('https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css')
-                ->js([
-                    ['src'=>'https://code.jquery.com/jquery-3.2.1.slim.min.js', 'integrity'=>'sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN','crossorigin'=>'anonymous'],
-                    'https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js',
-                ])->js([
-                    'src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js" crossorigin="anonymous"'
-                ])->_view('welcome_head')
-                ->_view('welcome_message')
-                ->_view('welcome_foot');
-    }
-
-    // Ex
-    public function depth()
-    {
-        $this->load->view('celcome_message');
+        $this->load
+            ->cache(5)
+            ->css('https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css')
+            ->js([
+                ['src'=>'https://code.jquery.com/jquery-3.2.1.slim.min.js', 'integrity'=>'sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN','crossorigin'=>'anonymous'],
+                'https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js',
+            ])->js([
+                'src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js" crossorigin="anonymous"'
+            ])->_view('welcome_head')
+            ->_view('welcome_message')
+            ->_view('welcome_foot');
     }
 }
 ```

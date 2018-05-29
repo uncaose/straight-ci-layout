@@ -13,32 +13,12 @@ class MY_Loader extends CI_Loader
     public $_js = [];   // js list
     
     // Extend
-    public function view( $view, $vars = [], $return = FALSE, $unshift = FALSE )
+    public function view( $view, $vars = [], $return = FALSE )
     {
-        if( $unshift )
-        {
-            array_unshift( $this->_views, substr($view, strpos($view, '/')===0?1:0) ); // store viewname
-        } else {
-            array_push( $this->_views, substr($view, strpos($view, '/')===0?1:0) ); // store viewname
-        }
-
+        array_push( $this->_views, substr($view, strpos($view, '/')===0?1:0) ); // store viewname
         return  parent::view($view, $vars, $return);
     }
 
-    public function _view($view, $vars = [], $return = FALSE, $unshift = FALSE )
-    {
-        return $this->view($view, $vars);
-    }
-    
-    public function getView( $unique=FALSE )
-    {
-        if( $unique === TRUE )
-        {
-            return array_unique( $this->_views, SORT_STRING );
-        }
-        return $this->_views;
-    }
-    
     public function skin( $name = '' )
     {
         $this->_skin = $name;
@@ -60,18 +40,7 @@ class MY_Loader extends CI_Loader
         }
 
         $this->_css = array_merge( $this->_css, $href );
-
         return $this;
-    }
-
-    public function getCss( $unique = TRUE )
-    {
-        if( $unique === TRUE )
-        {
-            return array_unique( $this->_css, SORT_REGULAR );
-        }
-
-        return $this->_css;
     }
 
     public function js( $src = NULL )
@@ -83,20 +52,30 @@ class MY_Loader extends CI_Loader
         }
 
         $this->_js = array_merge( $this->_js, $src );
-
         return $this;
     }
 
-    public function getJs( $unique = TRUE )
+    public function cache( $time = 60, $Etag = NULL  )
     {
-        if( $unique === TRUE )
+        // checkt last time & Etag
+        if( empty($lastModifTime) ) $lastModifTime = time();
+		if ( ( isset($_SERVER['HTTP_IF_MODIFIED_SINCE']) && strtotime($_SERVER['HTTP_IF_MODIFIED_SINCE']) >= $lastModifTime  )
+            || ( ! empty($Etag) && isset($_SERVER['HTTP_IF_NONE_MATCH']) && trim($_SERVER['HTTP_IF_NONE_MATCH']) == $Etag) )
         {
-            return array_unique( $this->_js, SORT_REGULAR );
+            // Not Modify
+            header("Last-Modified: ".gmdate("D, d M Y H:i:s", $lastModifTime+$time)." GMT", TRUE, 304);
         }
-        
-        return $this->_js;
-    }
 
+        header('Pragma: cache');
+        header('Cache-Control: public');
+        header("Cache-Control: max-age=".$time);
+        header('Vary: Accept-Encoding');
+        header("Expires: ".gmdate("D, d M Y H:i:s", time()+$time)." GMT");
+        header("Last-Modified: ".gmdate("D, d M Y H:i:s", $lastModifTime+$time)." GMT");
+        if( ! empty($Etag) ) header("Etag: {$Etag}");
+
+        return $this;
+    }
 }
 
 /**
