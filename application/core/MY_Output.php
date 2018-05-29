@@ -6,19 +6,7 @@
  */
 class MY_Output extends CI_Output
 {
-	public function __construct() {
-        if( CI_VERSION >= "3"  )
-        {
-            parent::__construct();
-        }
-        else
-        {
-            $this->___construct();
-        }
-    }
-    
-    // CI2 $mimes error solution
-    private function ___construct()
+    public function __construct()
     {
         $this->_zlib_oc = @ini_get('zlib.output_compression');
 

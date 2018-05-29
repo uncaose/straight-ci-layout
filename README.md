@@ -6,11 +6,12 @@
 
 ## Method ##
 ```php
+$this->load->cache() // browser cache Default : $time=60, $Etag=NULL
 $this->load->css('any.css'); // enable chain
 $this->load->js('any.js');  // enable chain
 $this->load->view('any');   // enable chain
 $this->load->view('any', [], TRUE); // CI2 default, non chain
-$this->load->css()->js()->view()->view()->css()->js()->view();    // usage
+$this->load->cache()->css()->js()->view()->view()->css()->js()->view();    // usage
 ```
 
 ## Config ##
@@ -36,15 +37,17 @@ $config['view_minify'] = TRUE;
 Class Welcome extends MY_Controller
 {
     public function index() {
-        $this->load->css('https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css')
-                ->js([
-                    ['src'=>'https://code.jquery.com/jquery-3.2.1.slim.min.js', 'integrity'=>'sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN','crossorigin'=>'anonymous'],
-                    'https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js',
-                ])->js([
-                    'src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js" crossorigin="anonymous"'
-                ])->view('welcome_head')
-                ->view('welcome_message')
-                ->view('welcome_foot');
+        $this->load
+            ->cache(5)
+            ->css('https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css')
+            ->js([
+                ['src'=>'https://code.jquery.com/jquery-3.2.1.slim.min.js', 'integrity'=>'sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN','crossorigin'=>'anonymous'],
+                'https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js',
+            ])->js([
+                'src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js" crossorigin="anonymous"'
+            ])->view('welcome_head')
+            ->view('welcome_message')
+            ->view('welcome_foot');
     }
 }
 ```
