@@ -17,7 +17,7 @@ class MY_Controller extends CI_Controller
 	 */
     public function _output( $output )
     {
-        if( preg_match('#css|stylesheet|js|javascript#', getallheaders()['Accept']) || $this->input->is_ajax_request() ) echo $output;
+        if( preg_match('#css|stylesheet|js|javascript#', isset($_SERVER['HTTP_ACCEPT'])?$_SERVER['HTTP_ACCEPT']:'') || $this->input->is_ajax_request() ) echo $output;
 		else echo $this->straight->layout->output( $output );
 	}
 }
