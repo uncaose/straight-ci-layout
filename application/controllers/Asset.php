@@ -103,7 +103,7 @@ class Asset extends CI_Controller
 			$minifier = new Minify\JS( $file );
 			$rs = $minifier->minify();
 		}else{
-			$rs = $this->straight->layout->asset( $file );
+			$rs = $this->asset( $file );
         }
         return (ENVIRONMENT!=='production'?'/*'.str_replace(VIEWPATH,'', $file).'*/':'').$rs;
 	}
@@ -116,7 +116,7 @@ class Asset extends CI_Controller
             $minifier = new Minify\CSS( $file );
             $rs = $minifier->minify();
 		}else{
-			$rs = $this->straight->layout->asset( $file );
+			$rs = $this->asset( $file );
         }
         return (ENVIRONMENT!=='production'?'/*'.str_replace(VIEWPATH,'', $file).'*/':'').$rs;
     }
