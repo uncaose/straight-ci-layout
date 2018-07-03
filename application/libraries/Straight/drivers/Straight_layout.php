@@ -10,6 +10,8 @@ class Straight_layout Extends CI_Driver
 {
 	private function skin( $output='' )
 	{
+		if( ! isset(get_instance()->load->_views[0]) ) return $output;
+
 		if( get_instance()->load->_skin != $this->config['view_skin'] )
 		{
 			$path = substr(get_instance()->load->_views[0], 0, strrpos(get_instance()->load->_views[0], '/'));
@@ -31,6 +33,8 @@ class Straight_layout Extends CI_Driver
 
 	private function layout( $output='' )
 	{
+		if( ! isset(get_instance()->load->_views[0]) ) return $output;
+		
 		if( get_instance()->load->_layout != $this->config['view_layout'] )
 		{
 			$path = substr(get_instance()->load->_views[0], 0, strrpos(get_instance()->load->_views[0], '/'));
