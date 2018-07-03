@@ -51,6 +51,20 @@ Class Welcome extends MY_Controller
     }
 }
 ```
+```php 
+Class Someone extends MY_Controller 
+{ 
+    public funtion _init() // Commonly used functions instead of __construct () 
+    { 
+        // code... 
+    } 
+ 
+    public function index() 
+    { 
+        $this->load->view('someone'); 
+    } 
+} 
+
 
 ## Ex Output ##
 
