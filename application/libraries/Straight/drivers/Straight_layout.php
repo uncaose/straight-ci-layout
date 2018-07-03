@@ -13,7 +13,8 @@ class Straight_layout Extends CI_Driver
         if( get_instance()->load->_skin != $this->config['view_skin'] )
         {
             $path = substr(get_instance()->load->_views[0], 0, strrpos(get_instance()->load->_views[0], '/'));
-            $skin = $path.'/'.str_replace(EXT, '', get_instance()->load->_skin);
+            $skin = get_instance()->load->_skin;
+			$skin = $path.'/'.str_replace(EXT, '', substr($skin, strrpos($skin, '/')+(strrpos($skin, '/')?1:0)));
 
             if( file_exists(VIEWPATH.$skin.EXT) )
             {
@@ -33,7 +34,8 @@ class Straight_layout Extends CI_Driver
         if( get_instance()->load->_layout != $this->config['view_layout'] )
         {
             $path = substr(get_instance()->load->_views[0], 0, strrpos(get_instance()->load->_views[0], '/'));
-            $layout = $path.'/'.str_replace(EXT, '', get_instance()->load->_layout);
+            $layout = get_instance()->load->_layout;
+			$layout = $path.'/'.str_replace(EXT, '', substr($layout, strrpos($layout, '/')+(strrpos($layout, '/')?1:0)));
     
             if( file_exists(VIEWPATH.$layout.EXT) )
             {
