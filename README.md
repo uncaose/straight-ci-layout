@@ -67,6 +67,21 @@ Class Someone extends MY_Controller
     }
 }
 ```
+```php
+Class Someone extends MY_Controller
+{
+    public function __construct()
+    {
+		parent::__construct();
+        $this->load->driver('straight');
+    }
+
+    public function index()
+    {
+        $this->load->view('someone');
+    }
+}
+```
 
 ## Ex Output ##
 
