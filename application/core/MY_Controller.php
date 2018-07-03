@@ -10,6 +10,11 @@ class MY_Controller extends CI_Controller
     {
 		parent::__construct();
         $this->load->driver('straight');
+        $this->_init();
+    }
+
+    public function _init()
+    {
     }
 
 	/**
