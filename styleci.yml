@@ -1,0 +1,35 @@
+preset: recommended
+
+disabled:
+    #  - self_accessor
+
+enabled:
+  - mb_str_functions
+  - no_homoglyph_names
+  - psr4
+  - non_printable_character
+  - random_api_migration
+  - declare_strict_types
+  - final_internal_class
+  - void_return
+  - strict_comparison
+  - simplified_null_return
+  - final_internal_class
+  - ereg_to_preg
+
+finder:
+#  include:
+#    - "app"
+#    - "src"
+  not-name:
+    - "*.php.twig"
+    - "*.log"
+  not-path:
+    - "src/StyleCI/Fixers.php"
+  exclude:
+    - "vendors"
+    - "storage"
+    - "node_modules"
+    - "application/cache"
+    - "application/logs"
+    - "system"
