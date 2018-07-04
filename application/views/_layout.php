@@ -24,7 +24,7 @@
 <![endif]-->
     <!--_layout.php-->
     <div id="container" class="container-fluid">
-        <?php echo isset($layout)?$layout:''?>
+        <?php echo isset($layout) ? $layout : ''?>
     </div>
     <!-- _layou.php -->
     <!--// _layou.php -->
