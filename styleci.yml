@@ -30,6 +30,7 @@ finder:
     - "vendors"
     - "storage"
     - "node_modules"
+    - "application/config"
     - "application/cache"
     - "application/logs"
     - "system"
