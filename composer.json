@@ -1,6 +1,7 @@
 {
     "name" : "uncaose/straight-ci-layout",
     "description": "Straight Codeignight Layout",
+    "prefer-stable": true,
     "require": {
         "matthiasmullie/minify": "^1.3"
     }
