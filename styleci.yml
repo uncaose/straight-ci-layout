@@ -21,6 +21,8 @@ finder:
 #  include:
 #    - "app"
 #    - "src"
+  name:
+    - "*.php"
   not-name:
     - "*.php.twig"
     - "*.log"
