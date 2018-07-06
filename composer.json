@@ -2,6 +2,14 @@
     "name" : "uncaose/straight-ci-layout",
     "description": "Straight CodeIgnight Layout",
     "prefer-stable": true,
+      "minimum-stability": "stable",
+    "license": "MIT",
+    "authors": [
+      {
+        "name": "C.H",
+        "email": "uncaose@gmail.com"
+      }
+    ],
     "require": {
         "matthiasmullie/minify": "^1.3"
     }
