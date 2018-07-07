@@ -1,7 +1,6 @@
 {
     "name" : "uncaose/straight-ci-layout",
     "description": "Straight CodeIgnight Layout",
-    "prefer-stable": true,
     "minimum-stability": "dev",
     "license": "MIT",
     "authors": [
