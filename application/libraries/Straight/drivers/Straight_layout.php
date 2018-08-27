@@ -10,13 +10,13 @@ class Straight_layout Extends CI_Driver
 {
     private function skin( $output='' )
     {
-		if( ! isset(get_instance()->load->_views[0]) ) return $output;
-		
+        if( ! isset(get_instance()->load->_views[0]) ) return $output;
+        
         if( get_instance()->load->_skin != $this->config['view_skin'] )
         {
             $path = substr(get_instance()->load->_views[0], 0, strrpos(get_instance()->load->_views[0], '/'));
             $skin = get_instance()->load->_skin;
-			$skin = $path.'/'.str_replace(EXT, '', substr($skin, strrpos($skin, '/')+(strrpos($skin, '/')?1:0)));
+            $skin = $path.'/'.str_replace(EXT, '', substr($skin, strrpos($skin, '/')+(strrpos($skin, '/')?1:0)));
 
             if( file_exists(VIEWPATH.$skin.EXT) )
             {
@@ -26,20 +26,20 @@ class Straight_layout Extends CI_Driver
 
         if( file_exists(VIEWPATH.get_instance()->load->_skin.EXT) )
         {
-            $output = get_instance()->load->view( get_instance()->load->_skin, Array('skin'=>$output), TRUE, TRUE );
+            $output = get_instance()->load->view( get_instance()->load->_skin, Array_merge(get_instance()->load->_vars, ['skin'=>$output]), TRUE );
         }
         return $output;
     }
 
     private function layout( $output='' )
     {
-		if( ! isset(get_instance()->load->_views[0]) ) return $output;
+        if( ! isset(get_instance()->load->_views[0]) ) return $output;
 
         if( get_instance()->load->_layout != $this->config['view_layout'] )
         {
             $path = substr(get_instance()->load->_views[0], 0, strrpos(get_instance()->load->_views[0], '/'));
             $layout = get_instance()->load->_layout;
-			$layout = $path.'/'.str_replace(EXT, '', substr($layout, strrpos($layout, '/')+(strrpos($layout, '/')?1:0)));
+            $layout = $path.'/'.str_replace(EXT, '', substr($layout, strrpos($layout, '/')+(strrpos($layout, '/')?1:0)));
     
             if( file_exists(VIEWPATH.$layout.EXT) )
             {
@@ -49,7 +49,7 @@ class Straight_layout Extends CI_Driver
 
         if( file_exists(VIEWPATH.get_instance()->load->_layout.EXT) )
         {
-            $output = get_instance()->load->view( get_instance()->load->_layout, Array('layout'=>$output), TRUE, TRUE );
+            $output = get_instance()->load->view( get_instance()->load->_layout, Array_merge(get_instance()->load->_vars, ['layout'=>$output]), TRUE );
         }
         else
         {
