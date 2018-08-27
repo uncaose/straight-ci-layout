@@ -26,7 +26,7 @@ class Straight_layout Extends CI_Driver
 
 		if( file_exists(VIEWPATH.get_instance()->load->_skin.EXT) )
 		{
-			$output = get_instance()->load->view( get_instance()->load->_skin, Array('skin'=>$output), TRUE, TRUE );
+            $output = get_instance()->load->view( get_instance()->load->_skin, Array_merge(get_instance()->load->_vars, ['skin'=>$output]), TRUE );
 		}
 		return $output;
 	}
@@ -49,7 +49,7 @@ class Straight_layout Extends CI_Driver
 
 		if( file_exists(VIEWPATH.get_instance()->load->_layout.EXT) )
 		{
-			$output = get_instance()->load->view( get_instance()->load->_layout, Array('layout'=>$output), TRUE, TRUE );
+            $output = get_instance()->load->view( get_instance()->load->_layout, Array_merge(get_instance()->load->_vars, ['layout'=>$output]), TRUE );
 		}
 		else
 		{

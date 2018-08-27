@@ -11,11 +11,13 @@ class MY_Loader extends CI_Loader
     public $_layout = '_layout';    // layout
     public $_css = [];  // css list
     public $_js = [];   // js list
+    public $_vars = []; // data
     
     // Extend
     public function view( $view, $vars = [], $return = FALSE )
     {
         array_push( $this->_views, substr($view, strpos($view, '/')===0?1:0) ); // store viewname
+        if( is_array($vars) && sizeof($vars) ) $this->_vars = array_merge($this->_vars, $vars);
         return  parent::view($view, $vars, $return);
     }
 
